@@ -1,0 +1,21 @@
+{
+    "name": "anhoder/annotation",
+    "type": "library",
+    "require-dev": {
+        "symfony/var-dumper": "^5.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "anhoder",
+            "email": "anhoder@88.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload": {
+        "Anhoder\\Annotation\\": "src/"
+    },
+    "description": ""
+}
