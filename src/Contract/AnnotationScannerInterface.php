@@ -13,11 +13,14 @@ use Composer\Autoload\ClassLoader;
 
 /**
  * Interface ScannerInterface
+ * The Interface of annotation scanner.
  * @package Anhoder\Annotation\Contract
+ * @internal
  */
 interface AnnotationScannerInterface
 {
     /**
+     * Load annotation by scanning all psr4 prefix namespace from composer loader.
      * @param ClassLoader $composerLoader
      * @return mixed
      */

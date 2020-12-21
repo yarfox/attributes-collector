@@ -9,9 +9,25 @@
 
 namespace Anhoder\Annotation\Contract;
 
-interface AnnotationRegistryInterface extends RegistryInterface
+/**
+ * Interface AnnotationRegistryInterface
+ * The interface of class annotations container.
+ * @package Anhoder\Annotation\Contract
+ * @internal
+ */
+interface AnnotationRegistryInterface
 {
+    /**
+     * Get annotations from container.
+     * @param string|null $namespace
+     * @return array
+     */
     public function getAnnotations(string $namespace = null): array;
 
-    public function getAnnotationHandler(string $className): HandlerInterface;
+    /**
+     * Get annotation handler by annotation class name.
+     * @param string $annotation
+     * @return HandlerInterface
+     */
+    public function getAnnotationHandler(string $annotation): HandlerInterface;
 }
