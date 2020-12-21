@@ -7,6 +7,8 @@
  * 2020/12/20 11:14 下午
  */
 
+namespace Anhoder\Annotation\Contract;
+
 /**
  * Interface RegistryInterface
  */

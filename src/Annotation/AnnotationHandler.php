@@ -7,16 +7,16 @@
  * 2020/12/20 10:43 下午
  */
 
-namespace Anhoder\Annotation;
+namespace Anhoder\Annotation\Annotation;
 
 use Attribute;
 
 /**
- * AnnotationParser is an annotation used to mark the tagged class as an annotation parser.
+ * AnnotationHandler is an annotation used to mark the tagged class as an annotation handler.
  * @package Anhoder\Annotation
  */
 #[Attribute(Attribute::TARGET_CLASS)]
-class AnnotationParser
+class AnnotationHandler
 {
     /**
      * @var string

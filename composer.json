@@ -15,7 +15,9 @@
         "php": ">=8.0"
     },
     "autoload": {
-        "Anhoder\\Annotation\\": "src/"
+        "psr-4": {
+            "Anhoder\\Annotation\\": "src/"
+        }
     },
     "description": ""
 }
