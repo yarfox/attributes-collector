@@ -10,24 +10,53 @@
 namespace Anhoder\Annotation\Entity;
 
 use Anhoder\Annotation\Contract\AnnotationEntityInterface;
+use Anhoder\Annotation\Exception\ReflectionErrorException;
+use ReflectionProperty;
+use Reflector;
 
+/**
+ * Class PropertyAnnotationEntity
+ * @package Anhoder\Annotation\Entity
+ */
 class PropertyAnnotationEntity implements AnnotationEntityInterface
 {
+    /**
+     * @var array
+     */
+    private array $annotations = [];
 
+    /**
+     * @var ReflectionProperty
+     */
+    private ReflectionProperty $reflection;
+
+    /**
+     * PropertyAnnotationEntity constructor.
+     * @param Reflector $reflector
+     * @throws ReflectionErrorException
+     */
+    public function __construct(Reflector $reflector)
+    {
+        if (!$reflector instanceof ReflectionProperty) {
+            throw new ReflectionErrorException($reflector, ReflectionProperty::class);
+        }
+
+        $this->reflection = $reflector;
+    }
 
     /**
      * @inheritDoc
      */
     public function getAnnotations(): array
     {
-        // TODO: Implement getAnnotations() method.
+        return $this->annotations;
     }
 
     /**
-     * @inheritDoc
+     * @param $annotation
      */
-    public static function register(...$args)
+    public function registerAnnotation($annotation)
     {
-        // TODO: Implement register() method.
+        $this->annotations[] = $annotation;
     }
 }

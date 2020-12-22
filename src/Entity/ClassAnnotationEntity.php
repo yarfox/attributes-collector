@@ -14,12 +14,16 @@ use Anhoder\Annotation\Exception\ReflectionErrorException;
 use ReflectionClass;
 use Reflector;
 
+/**
+ * Class ClassAnnotationEntity
+ * @package Anhoder\Annotation\Entity
+ */
 class ClassAnnotationEntity implements AnnotationEntityInterface
 {
     /**
      * @var array
      */
-    private array $annotations;
+    private array $annotations = [];
 
     /**
      * @var ReflectionClass
@@ -30,19 +34,19 @@ class ClassAnnotationEntity implements AnnotationEntityInterface
      * @var ConstantAnnotationEntity[]
      * @example ['constantName' => ConstantAnnotationEntity]
      */
-    private array $constantEntities;
+    private array $constantEntities = [];
 
     /**
      * @var PropertyAnnotationEntity[]
      * @example ['propertyName' => PropertyAnnotationEntity]
      */
-    private array $propertyEntities;
+    private array $propertyEntities = [];
 
     /**
      * @var MethodAnnotationEntity[]
      * @example ['methodName' => MethodAnnotationEntity]
      */
-    private array $methodEntities;
+    private array $methodEntities = [];
 
     /**
      * ClassAnnotationEntity constructor.
@@ -66,18 +70,38 @@ class ClassAnnotationEntity implements AnnotationEntityInterface
         return $this->annotations;
     }
 
+    /**
+     * @param $annotation
+     */
+    public function registerAnnotation($annotation)
+    {
+        $this->annotations[] = $annotation;
+    }
+
+    /**
+     * @param string $constantName
+     * @param ConstantAnnotationEntity $constantAnnotationEntity
+     */
     public function registerConstant(string $constantName, ConstantAnnotationEntity $constantAnnotationEntity)
     {
-
+        $this->constantEntities[$constantName] = $constantAnnotationEntity;
     }
 
+    /**
+     * @param string $propertyName
+     * @param PropertyAnnotationEntity $propertyAnnotationEntity
+     */
     public function registerProperty(string $propertyName, PropertyAnnotationEntity $propertyAnnotationEntity)
     {
-
+        $this->propertyEntities[$propertyName] = $propertyAnnotationEntity;
     }
 
+    /**
+     * @param string $methodName
+     * @param MethodAnnotationEntity $methodAnnotationEntity
+     */
     public function registerMethod(string $methodName, MethodAnnotationEntity $methodAnnotationEntity)
     {
-
+        $this->methodEntities[$methodName] = $methodAnnotationEntity;
     }
 }
