@@ -11,6 +11,8 @@ namespace Anhoder\Annotation\Entity;
 
 use Anhoder\Annotation\Contract\AnnotationEntityInterface;
 use Anhoder\Annotation\Exception\ReflectionErrorException;
+use Attribute;
+use ReflectionAttribute;
 use ReflectionClassConstant;
 use Reflector;
 
@@ -21,7 +23,7 @@ use Reflector;
 class ConstantAnnotationEntity implements AnnotationEntityInterface
 {
     /**
-     * @var array
+     * @var ReflectionAttribute[]
      */
     private array $annotations = [];
 
@@ -45,7 +47,7 @@ class ConstantAnnotationEntity implements AnnotationEntityInterface
     }
 
     /**
-     * @return array
+     * @return ReflectionAttribute[]
      */
     public function getAnnotations(): array
     {
@@ -55,8 +57,11 @@ class ConstantAnnotationEntity implements AnnotationEntityInterface
     /**
      * @param $annotation
      */
-    public function registerAnnotation($annotation)
+    public function registerAnnotation(ReflectionAttribute $annotation)
     {
-        $this->annotations[] = $annotation;
+        if (Attribute::TARGET_CLASS_CONSTANT == $annotation->getTarget()) {
+            $name = $annotation->getName();
+            $this->annotations[$name] = $annotation;
+        }
     }
 }

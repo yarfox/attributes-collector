@@ -21,8 +21,8 @@ class AnnotationAnnotationScanner implements AnnotationScannerInterface
     private ClassLoader $composerLoader;
 
     /**
-     * @param \Composer\Autoload\ClassLoader $composerLoader
-     * @return \Anhoder\Annotation\Contract\AnnotationRegistryInterface
+     * @param ClassLoader $composerLoader
+     * @return AnnotationRegistryInterface
      */
     public function scan(ClassLoader $composerLoader): AnnotationRegistryInterface
     {

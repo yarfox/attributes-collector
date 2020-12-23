@@ -27,7 +27,7 @@ interface AnnotationEntityInterface
 
     /**
      * Get annotations.
-     * @return array
+     * @return \ReflectionAttribute[]
      */
     public function getAnnotations(): array;
 }

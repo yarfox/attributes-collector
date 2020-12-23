@@ -20,9 +20,10 @@ class AnnotationRegistry implements AnnotationRegistryInterface
      * [
      *     $namespace => [
      *         $className => [
-     *             'annotations' => [],
-     *             'properties' => [],
-     *             'methods' => [],
+     *             'annotations' => ReflectionAttribute[],
+     *             'properties'  => [],
+     *             'methods'     => [],
+     *             'constans'    => [],
      *         ]
      *     ]
      * ]
@@ -31,20 +32,19 @@ class AnnotationRegistry implements AnnotationRegistryInterface
 
     /**
      * @var array
+     * @example
+     * [
+     *     $annotationClassName => HandlerInterface
+     * ]
      */
-    private array $annotationParser = [];
-
-    public static function register(...$args)
-    {
-
-    }
+    private array $annotationHandlers = [];
 
     public function getAnnotations(string $namespace = null): array
     {
         // TODO: Implement getAnnotations() method.
     }
 
-    public function getAnnotationHandler(string $className): HandlerInterface
+    public function getAnnotationHandler(string $annotation): HandlerInterface
     {
         // TODO: Implement getAnnotationHandler() method.
     }

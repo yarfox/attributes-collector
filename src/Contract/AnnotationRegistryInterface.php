@@ -20,7 +20,7 @@ interface AnnotationRegistryInterface
     /**
      * Get annotations from container.
      * @param string|null $namespace
-     * @return array
+     * @return \ReflectionAttribute[]
      */
     public function getAnnotations(string $namespace = null): array;
 
