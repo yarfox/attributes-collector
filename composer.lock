@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0850470494eb9d66405467458676c24",
-    "packages": [],
+    "content-hash": "df255b87f2fba569a99c84418346980c",
+    "packages": [
+        {
+            "name": "wujunze/php-cli-color",
+            "version": "v2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wujunze/php-cli-color.git",
+                "reference": "e4bc6bf3a12e6d9eae68aa2cb87dedf9cf3814d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wujunze/php-cli-color/zipball/e4bc6bf3a12e6d9eae68aa2cb87dedf9cf3814d1",
+                "reference": "e4bc6bf3a12e6d9eae68aa2cb87dedf9cf3814d1",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "^0.5",
+                "overtrue/phplint": "^0.2",
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Wujunze\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "wujunze",
+                    "email": "itwujunze@163.com"
+                }
+            ],
+            "description": "Simple and easy to use the PHP command-line output of color",
+            "time": "2018-07-18T06:33:28+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "symfony/polyfill-mbstring",

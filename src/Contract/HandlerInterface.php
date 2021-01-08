@@ -1,10 +1,10 @@
 <?php
 /**
- * The file is part of the annotation.
+ *  * The file is part of the annotation.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) anhoder <anhoder@88.com>.
  *
- * 2020/12/21 9:31 上午
+ * 2021/1/8 2:05 下午
  */
 
 namespace Anhoder\Annotation\Contract;
