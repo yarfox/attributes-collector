@@ -11,7 +11,7 @@ namespace Anhoder\Annotation;
 
 use Anhoder\Annotation\Contract\LogHandlerInterface;
 use Anhoder\Annotation\Exception\NotFoundException;
-use Anhoder\Annotation\Handler\AnnotationLogDefaultHandler;
+use Anhoder\Annotation\LogHandler\AnnotationLogDefaultHandler;
 use Composer\Autoload\ClassLoader;
 
 /**

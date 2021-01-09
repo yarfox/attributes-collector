@@ -39,6 +39,7 @@ class AnnotationConfigCollector
      * @example [
      *     namespace => configs
      * ]
+     * keys: scanDirs(array)
      */
     private array $configs = [];
 
@@ -67,7 +68,7 @@ class AnnotationConfigCollector
      * @return AnnotationConfigCollector
      * @throws \Anhoder\Annotation\Exception\NotFoundException
      */
-    public static function getInstance()
+    public static function getInstance(): static
     {
         if (!static::$instance) {
             $composerLoader = AnnotationHelper::getComposerLoader();
@@ -75,6 +76,18 @@ class AnnotationConfigCollector
         }
 
         return static::$instance;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigs(): array
+    {
+        if (!$this->configs) {
+            $this->collect();
+        }
+
+        return $this->configs;
     }
 
     /**
@@ -113,7 +126,7 @@ class AnnotationConfigCollector
      * Collect annotation configs from psr4 prefix dirs.
      * @return void
      */
-    public function collect()
+    protected function collect()
     {
         $logHandler = AnnotationHelper::getLogHandler();
 

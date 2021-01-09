@@ -7,7 +7,7 @@
  * 2020/12/21 9:37 上午
  */
 
-namespace Anhoder\Annotation\Scanner;
+namespace Anhoder\Annotation;
 
 use Anhoder\Annotation\Contract\AnnotationRegistryInterface;
 use Anhoder\Annotation\Contract\AnnotationScannerInterface;
@@ -26,19 +26,9 @@ class AnnotationScanner implements AnnotationScannerInterface
     private static AnnotationScanner $instance;
 
     /**
-     * @var ClassLoader
+     * @var AnnotationConfigCollector
      */
-    private ClassLoader $composerLoader;
-
-    /**
-     * @var string
-     */
-    private string $autoScannerFile = 'AnnotationScanner.php';
-
-    /**
-     * @var string
-     */
-    private string $autoScannerClass = 'AnnotationScanner';
+    private AnnotationConfigCollector $configCollector;
 
     /**
      * @var array
@@ -50,48 +40,47 @@ class AnnotationScanner implements AnnotationScannerInterface
     private array $scanDirs = [];
 
     /**
-     * AnnotationAnnotationScanner constructor.
-     * @param ClassLoader $composerLoader
+     * AnnotationScanner constructor.
+     * @throws NotFoundException
      */
-    private function __construct(ClassLoader $composerLoader)
+    private function __construct()
     {
+        $this->configCollector = AnnotationConfigCollector::getInstance();
 
+        foreach ($this->configCollector->getConfigs() as $parentNamespace => $configs) {
+
+            if (isset($configs['scanDirs']) && is_array($configs['scanDirs'])) {
+
+                foreach ($configs['scanDirs'] as $namespace => $scanDir) {
+                    $realpath = realpath($scanDir);
+                    if (false !== $realpath) continue;
+
+                    $this->scanDirs[$namespace] = $realpath;
+                }
+
+            }
+
+        }
     }
 
     /**
      * @return AnnotationScanner
-     * @throws NotFoundException
      */
-    public static function getInstance()
+    public static function getInstance(): static
     {
         if (!static::$instance) {
-            $composerLoader = static::getComposerLoader();
-
-            static::$instance = new static($composerLoader);
+            static::$instance = new static();
         }
 
         return static::$instance;
     }
 
-
-
     /**
+     * @param array $dirs
      * @return AnnotationRegistryInterface
      */
-    public function scan(): AnnotationRegistryInterface
+    public function scan(array $dirs): AnnotationRegistryInterface
     {
-        foreach ($this->scanDirs as $namespace => $dirs) {
-            foreach ($dirs as $dir) {
-                // check file
-                $filepath = rtrim($dir, '/') . '/' . $this->autoScannerFile;
-                if (!file_exists($filepath)) continue;
 
-                // check class
-                $className = $namespace . $this->autoScannerClass;
-                if (!class_exists($className)) continue;
-
-
-            }
-        }
     }
 }

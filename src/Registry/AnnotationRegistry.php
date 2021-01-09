@@ -19,12 +19,8 @@ class AnnotationRegistry implements AnnotationRegistryInterface
      * @example
      * [
      *     $namespace => [
-     *         $className => [
-     *             'annotations' => ReflectionAttribute[],
-     *             'properties'  => [],
-     *             'methods'     => [],
-     *             'constans'    => [],
-     *         ]
+     *         $className  => ClassAnnotationEntity,
+     *         $className2 => ClassAnnotationEntity,
      *     ]
      * ]
      */

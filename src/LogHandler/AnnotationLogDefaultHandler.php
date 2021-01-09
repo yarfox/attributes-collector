@@ -7,7 +7,7 @@
  * 2020/12/24 2:04 下午
  */
 
-namespace Anhoder\Annotation\Handler;
+namespace Anhoder\Annotation\LogHandler;
 
 use Anhoder\Annotation\Contract\LogHandlerInterface;
 use Wujunze\Colors;
