@@ -21,8 +21,6 @@ interface AnnotationScannerInterface
 {
     /**
      * Load annotation by scanning all psr4 prefix namespace from composer loader.
-     * @param array $dirs
-     * @return AnnotationRegistryInterface
      */
-    public function scan(array $dirs): AnnotationRegistryInterface;
+    public function scan();
 }

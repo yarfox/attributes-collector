@@ -77,7 +77,7 @@ class ClassAnnotationEntity implements AnnotationEntityInterface
      */
     public function registerAnnotation(ReflectionAttribute $annotation)
     {
-        if (Attribute::TARGET_CLASS == $annotation->getTarget()) {
+        if (Attribute::TARGET_CLASS & $annotation->getTarget()) {
             $name = $annotation->getName();
             $this->annotations[$name] = $annotation;
         }

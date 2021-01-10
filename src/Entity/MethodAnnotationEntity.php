@@ -59,7 +59,7 @@ class MethodAnnotationEntity implements AnnotationEntityInterface
      */
     public function registerAnnotation(ReflectionAttribute $annotation)
     {
-        if (Attribute::TARGET_METHOD == $annotation) {
+        if (Attribute::TARGET_METHOD & $annotation->getTarget()) {
             $name = $annotation->getName();
             $this->annotations[$name] = $annotation;
         }

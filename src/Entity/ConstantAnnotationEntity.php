@@ -59,7 +59,7 @@ class ConstantAnnotationEntity implements AnnotationEntityInterface
      */
     public function registerAnnotation(ReflectionAttribute $annotation)
     {
-        if (Attribute::TARGET_CLASS_CONSTANT == $annotation->getTarget()) {
+        if (Attribute::TARGET_CLASS_CONSTANT & $annotation->getTarget()) {
             $name = $annotation->getName();
             $this->annotations[$name] = $annotation;
         }

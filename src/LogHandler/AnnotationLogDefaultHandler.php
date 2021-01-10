@@ -23,7 +23,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
      */
     public function errorHandle(string $content)
     {
-        Colors::error($content);
+//        Colors::error("[ERROR] {$content}");
     }
 
     /**
@@ -31,7 +31,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
      */
     public function infoHandle(string $content)
     {
-        Colors::notice($content);
+//        Colors::notice("[INFO] {$content}");
     }
 
     /**
@@ -39,7 +39,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
      */
     public function successHandle(string $content)
     {
-        Colors::success($content);
+//        Colors::success("[SUCCESS] {$content}");
     }
 
     /**
@@ -47,6 +47,6 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
      */
     public function warningHandle(string $content)
     {
-        Colors::warn($content);
+//        Colors::warn("[WARNING] {$content}");
     }
 }

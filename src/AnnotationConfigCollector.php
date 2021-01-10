@@ -20,9 +20,9 @@ use Composer\Autoload\ClassLoader;
 class AnnotationConfigCollector
 {
     /**
-     * @var AnnotationConfigCollector
+     * @var AnnotationConfigCollector|null
      */
-    private static AnnotationConfigCollector $instance;
+    private static ?AnnotationConfigCollector $instance = null;
 
     /**
      * @var string

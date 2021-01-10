@@ -10,7 +10,8 @@
 namespace Anhoder\Annotation\Registry;
 
 use Anhoder\Annotation\Contract\AnnotationRegistryInterface;
-use Anhoder\Annotation\Contract\HandlerInterface;
+use Anhoder\Annotation\Contract\AnnotationHandlerInterface;
+use Anhoder\Annotation\Entity\ClassAnnotationEntity;
 
 class AnnotationRegistry implements AnnotationRegistryInterface
 {
@@ -24,24 +25,53 @@ class AnnotationRegistry implements AnnotationRegistryInterface
      *     ]
      * ]
      */
-    private array $annotations = [];
+    private static array $annotations = [];
 
     /**
      * @var array
      * @example
      * [
-     *     $annotationClassName => HandlerInterface
+     *     $annotationClassName => HandlerClassName
      * ]
      */
-    private array $annotationHandlers = [];
+    private static array $annotationHandlers = [];
 
-    public function getAnnotations(string $namespace = null): array
+    /**
+     * @param string|null $namespace
+     * @return array
+     */
+    public static function getAnnotations(string $namespace = null): array
     {
-        // TODO: Implement getAnnotations() method.
+        if (is_null($namespace)) return static::$annotations;
+
+        return static::$annotations[$namespace] ?? [];
     }
 
-    public function getAnnotationHandler(string $annotation): HandlerInterface
+    /**
+     * @param string $annotation
+     * @return AnnotationHandlerInterface|null
+     */
+    public static function getAnnotationHandler(string $annotation): ?AnnotationHandlerInterface
     {
-        // TODO: Implement getAnnotationHandler() method.
+        if (!isset(static::$annotationHandlers[$annotation])) return null;
+        return static::$annotationHandlers[$annotation];
+    }
+
+    /**
+     * @param string $className
+     * @param ClassAnnotationEntity $classAnnotationEntity
+     */
+    public static function registerAnnotation(string $className, ClassAnnotationEntity $classAnnotationEntity)
+    {
+        static::$annotations[$className] = $classAnnotationEntity;
+    }
+
+    /**
+     * @param string $annotationName
+     * @param string $annotationHandler
+     */
+    public static function registerAnnotationHandler(string $annotationName, string $annotationHandler)
+    {
+        static::$annotationHandlers[$annotationName] = $annotationHandler;
     }
 }

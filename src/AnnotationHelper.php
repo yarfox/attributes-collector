@@ -21,14 +21,14 @@ use Composer\Autoload\ClassLoader;
 class AnnotationHelper
 {
     /**
-     * @var ClassLoader
+     * @var ClassLoader|null
      */
-    private static ClassLoader $classLoader;
+    private static ?ClassLoader $classLoader = null;
 
     /**
-     * @var LogHandlerInterface
+     * @var LogHandlerInterface|null
      */
-    private static LogHandlerInterface $logHandler;
+    private static ?LogHandlerInterface $logHandler = null;
 
     /**
      * 获取composer自动加载对象

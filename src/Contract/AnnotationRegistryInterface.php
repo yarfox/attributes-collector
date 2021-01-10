@@ -22,12 +22,12 @@ interface AnnotationRegistryInterface
      * @param string|null $namespace
      * @return \ReflectionAttribute[]
      */
-    public function getAnnotations(string $namespace = null): array;
+    public static function getAnnotations(string $namespace = null): array;
 
     /**
      * Get annotation handler by annotation class name.
      * @param string $annotation
-     * @return HandlerInterface
+     * @return AnnotationHandlerInterface|null
      */
-    public function getAnnotationHandler(string $annotation): HandlerInterface;
+    public static function getAnnotationHandler(string $annotation): ?AnnotationHandlerInterface;
 }
