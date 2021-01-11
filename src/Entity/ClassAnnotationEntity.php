@@ -73,6 +73,38 @@ class ClassAnnotationEntity implements AnnotationEntityInterface
     }
 
     /**
+     * @return ReflectionClass
+     */
+    public function getReflection(): ReflectionClass
+    {
+        return $this->reflection;
+    }
+
+    /**
+     * @return ConstantAnnotationEntity[]
+     */
+    public function getConstantEntities(): array
+    {
+        return $this->constantEntities;
+    }
+
+    /**
+     * @return PropertyAnnotationEntity[]
+     */
+    public function getPropertyEntities(): array
+    {
+        return $this->propertyEntities;
+    }
+
+    /**
+     * @return MethodAnnotationEntity[]
+     */
+    public function getMethodEntities(): array
+    {
+        return $this->methodEntities;
+    }
+
+    /**
      * @param $annotation
      */
     public function registerAnnotation(ReflectionAttribute $annotation)

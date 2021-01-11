@@ -58,12 +58,13 @@ class AnnotationRegistry implements AnnotationRegistryInterface
     }
 
     /**
+     * @param string $namespace
      * @param string $className
      * @param ClassAnnotationEntity $classAnnotationEntity
      */
-    public static function registerAnnotation(string $className, ClassAnnotationEntity $classAnnotationEntity)
+    public static function registerAnnotation(string $namespace, string $className, ClassAnnotationEntity $classAnnotationEntity)
     {
-        static::$annotations[$className] = $classAnnotationEntity;
+        static::$annotations[$namespace][$className] = $classAnnotationEntity;
     }
 
     /**

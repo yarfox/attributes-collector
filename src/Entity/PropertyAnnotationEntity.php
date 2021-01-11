@@ -23,6 +23,13 @@ use Reflector;
 class PropertyAnnotationEntity implements AnnotationEntityInterface
 {
     /**
+     * @return ReflectionProperty
+     */
+    public function getReflection(): ReflectionProperty
+    {
+        return $this->reflection;
+    }
+    /**
      * @var ReflectionAttribute[]
      */
     private array $annotations = [];

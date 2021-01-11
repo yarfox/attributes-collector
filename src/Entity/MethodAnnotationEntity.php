@@ -47,6 +47,14 @@ class MethodAnnotationEntity implements AnnotationEntityInterface
     }
 
     /**
+     * @return ReflectionMethod
+     */
+    public function getReflection(): ReflectionMethod
+    {
+        return $this->reflection;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getAnnotations(): array

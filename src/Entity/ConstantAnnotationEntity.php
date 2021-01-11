@@ -23,6 +23,13 @@ use Reflector;
 class ConstantAnnotationEntity implements AnnotationEntityInterface
 {
     /**
+     * @return ReflectionClassConstant
+     */
+    public function getReflection(): ReflectionClassConstant
+    {
+        return $this->reflection;
+    }
+    /**
      * @var ReflectionAttribute[]
      */
     private array $annotations = [];

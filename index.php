@@ -15,5 +15,12 @@ require './vendor/autoload.php';
 $scanner = AnnotationScanner::getInstance();
 $scanner->scan();
 
-dd(AnnotationRegistry::getAnnotations());
+foreach (AnnotationRegistry::getAnnotations() as $namespace => $annotations) {
+    foreach ($annotations as $className => $annotation) {
+        /**
+         * @var $annotation \Anhoder\Annotation\Entity\ClassAnnotationEntity
+         */
+        dump($className, $annotation->getAnnotations());
+    }
+}
 
