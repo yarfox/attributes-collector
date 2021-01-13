@@ -18,7 +18,7 @@
     "autoload": {
         "psr-4": {
             "Anhoder\\Annotation\\": "src/",
-            "Anhoder\\Annotation\\Test\\": "tests/"
+            "Anhoder\\Annotation\\Test\\": "tests/app"
         }
     },
     "description": ""
