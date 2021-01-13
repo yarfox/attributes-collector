@@ -29,5 +29,5 @@ interface AnnotationRegistryInterface
      * @param string $annotation
      * @return AnnotationHandlerInterface|null
      */
-    public static function getAnnotationHandler(string $annotation): ?AnnotationHandlerInterface;
+    public static function getAnnotationHandler(string $annotation): ?string;
 }

@@ -31,6 +31,11 @@ class AnnotationHelper
     private static ?LogHandlerInterface $logHandler = null;
 
     /**
+     * @var string|null
+     */
+    private static ?string $vendorPath = null;
+
+    /**
      * 获取composer自动加载对象
      * @return ClassLoader
      * @throws NotFoundException
@@ -71,5 +76,29 @@ class AnnotationHelper
     public static function registerLogHandler(LogHandlerInterface $logHandler): void
     {
         self::$logHandler = $logHandler;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getVendorPath(): string
+    {
+        if (!static::$vendorPath) static::$vendorPath = dirname(dirname(dirname(__DIR__)));
+
+        return static::$vendorPath;
+    }
+
+    /**
+     * @throws Exception\ReflectionErrorException
+     * @throws NotFoundException
+     * @throws \ReflectionException
+     */
+    public static function scan()
+    {
+        $scanner = AnnotationScanner::getInstance();
+        $scanner->scan();
+
+        $scheduler = new AnnotationHandlerScheduler();
+        $scheduler->schedule();
     }
 }

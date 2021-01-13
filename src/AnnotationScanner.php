@@ -19,6 +19,7 @@ use Anhoder\Annotation\Exception\NotFoundException;
 use Anhoder\Annotation\Registry\AnnotationRegistry;
 use Attribute;
 use Composer\Autoload\ClassLoader;
+use Generator;
 use RecursiveDirectoryIterator;
 use ReflectionClass;
 
@@ -66,7 +67,7 @@ class AnnotationScanner implements AnnotationScannerInterface
             foreach ($configs['scanDirs'] as $namespace => $scanDir) {
                 $realpath = realpath($scanDir);
                 if (false === $realpath || !is_dir($realpath)) {
-                    AnnotationHelper::getLogHandler()->infoHandle("Path({$scanDir}) not exists or it is not dir.");
+                    AnnotationHelper::getLogHandler()->warningHandle("Path({$scanDir}) not exists or it is not dir.");
                     continue;
                 }
 
@@ -108,6 +109,9 @@ class AnnotationScanner implements AnnotationScannerInterface
         foreach ($this->scanDirs as $namespace => $dir) {
             $this->parseAnnotationClassesFromDir($namespace, $dir);
         }
+
+        $logger = AnnotationHelper::getLogHandler();
+        $logger->successHandle('Annotation scan success.');
     }
 
     /**
@@ -118,9 +122,9 @@ class AnnotationScanner implements AnnotationScannerInterface
      */
     private function parseAnnotationClassesFromDir(string $namespace, string $dir)
     {
-        $reflectionClasses = $this->getReflectionClassesFromDir($namespace, $dir);
+        $reflectionClassGenerator = $this->getReflectionClassesFromDir($namespace, $dir);
 
-        foreach ($reflectionClasses as $reflectionClass) {
+        foreach ($reflectionClassGenerator as $reflectionClass) {
             /**
              * @var $reflectionClass ReflectionClass
              */
@@ -139,11 +143,10 @@ class AnnotationScanner implements AnnotationScannerInterface
             // Methods
             $hasMethodAnnotation = $this->parseAnnotationMethods($classEntity, $reflectionClass);
 
-            if ($hasClassAnnotation || $hasConstantAnnotation || $hasPropertyAnnotation || $hasMethodAnnotation)  {
+            if ($hasClassAnnotation || $hasConstantAnnotation || $hasPropertyAnnotation || $hasMethodAnnotation) {
                 AnnotationRegistry::registerAnnotation($reflectionClass->getNamespaceName(), $reflectionClass->getName(), $classEntity);
             }
         }
-
     }
 
     /**
@@ -165,19 +168,6 @@ class AnnotationScanner implements AnnotationScannerInterface
                 $args = $attribute->getArguments();
 
                 $handlerAnnotation = new AnnotationHandler(...$args);
-
-                //                    $handler = $reflectionClass->newInstanceWithoutConstructor();
-                //
-                //                    if (!$handler instanceof AnnotationHandlerInterface) {
-                //                        AnnotationHelper::getLogHandler()->errorHandle("{$reflectionClass->getName()} must be instance of AnnotationHandlerInterface.");
-                //                        continue;
-                //                    }
-                //
-                //                    $handler->setTarget(Attribute::TARGET_CLASS);
-                //                    $handler->setTargetName($reflectionClass->getName());
-                //                    $handler->setAnnotation($handlerAnnotation);
-                //                    $handler->setClassReflection($reflectionClass);
-
                 AnnotationRegistry::registerAnnotationHandler($handlerAnnotation->getAnnotationClass(), $reflectionClass->getName());
             }
         }
@@ -276,33 +266,35 @@ class AnnotationScanner implements AnnotationScannerInterface
     /**
      * @param string $namespace
      * @param string $dir
-     * @return array
+     * @return Generator
      * @throws \ReflectionException
      */
-    private function getReflectionClassesFromDir(string $namespace, string $dir)
+    private function getReflectionClassesFromDir(string $namespace, string $dir): Generator
     {
         $namespace = rtrim($namespace, '\\');
         $iterator = new RecursiveDirectoryIterator($dir);
 
-        $reflectionClasses = [];
         foreach ($iterator as $splFileInfo) {
 
             $basename = $splFileInfo->getBasename();
 
             if ($splFileInfo->isDir()) {
+                if ($basename == '.' || $basename == '..' || $splFileInfo->getRealPath() == AnnotationHelper::getVendorPath()) {
+                    // ignore . or .. or vendor
+                    continue;
+                }
+
                 // Directory
-                if ($basename != '.' && $basename != '..') {
-                    // . or ..
-                    $pathname = $splFileInfo->getRealPath();
+                $pathname = $splFileInfo->getRealPath();
 
-                    if (isset($this->realpathAssocNamespace[$pathname])) {
-                        $curNamespace = $this->realpathAssocNamespace;
-                    } else {
-                        $curNamespace = "{$namespace}\\{$basename}";
-                    }
+                if (isset($this->realpathAssocNamespace[$pathname])) {
+                    $curNamespace = $this->realpathAssocNamespace;
+                } else {
+                    $curNamespace = "{$namespace}\\{$basename}";
+                }
 
-                    $reflectionClasses = array_merge($reflectionClasses, $this->getReflectionClassesFromDir($curNamespace, $splFileInfo->getPathname()));
-
+                foreach ($this->getReflectionClassesFromDir($curNamespace, $splFileInfo->getPathname()) as $reflectionClass) {
+                    yield $reflectionClass;
                 }
 
                 continue;
@@ -317,11 +309,9 @@ class AnnotationScanner implements AnnotationScannerInterface
             $className = $splFileInfo->getBasename('.' . $splFileInfo->getExtension());
             $class = "{$namespace}\\{$className}";
             if (class_exists($class)) {
-                $reflectionClasses[] = new ReflectionClass($class);
+                yield new ReflectionClass($class);
             }
 
         }
-
-        return $reflectionClasses;
     }
 }

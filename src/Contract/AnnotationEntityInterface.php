@@ -9,6 +9,7 @@
 
 namespace Anhoder\Annotation\Contract;
 
+use Reflection;
 use Reflector;
 
 /**
@@ -30,4 +31,9 @@ interface AnnotationEntityInterface
      * @return \ReflectionAttribute[]
      */
     public function getAnnotations(): array;
+
+    /**
+     * @return Reflector
+     */
+    public function getReflection(): Reflector;
 }

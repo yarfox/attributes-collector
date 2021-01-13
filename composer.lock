@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df255b87f2fba569a99c84418346980c",
+    "content-hash": "64fc6cc676053b5596b55d6f3c43ffad",
     "packages": [
         {
-            "name": "wujunze/php-cli-color",
-            "version": "v2.4",
+            "name": "php-parallel-lint/php-console-color",
+            "version": "v1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/wujunze/php-cli-color.git",
-                "reference": "e4bc6bf3a12e6d9eae68aa2cb87dedf9cf3814d1"
+                "url": "https://github.com/php-parallel-lint/PHP-Console-Color.git",
+                "reference": "9b67e6458a1ec1e1b03fa247a15d41aea0021ab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wujunze/php-cli-color/zipball/e4bc6bf3a12e6d9eae68aa2cb87dedf9cf3814d1",
-                "reference": "e4bc6bf3a12e6d9eae68aa2cb87dedf9cf3814d1",
+                "url": "https://api.github.com/repos/php-parallel-lint/PHP-Console-Color/zipball/9b67e6458a1ec1e1b03fa247a15d41aea0021ab3",
+                "reference": "9b67e6458a1ec1e1b03fa247a15d41aea0021ab3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -27,31 +27,36 @@
                 ]
             },
             "require": {
-                "php": ">=5.6.0"
+                "php": ">=5.4.0"
+            },
+            "replace": {
+                "jakub-onderka/php-console-color": "*"
             },
             "require-dev": {
-                "codedungeon/phpunit-result-printer": "^0.5",
-                "overtrue/phplint": "^0.2",
-                "phpunit/phpunit": "^5.0"
+                "php-parallel-lint/php-code-style": "1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.0",
+                "php-parallel-lint/php-var-dump-check": "0.*",
+                "phpunit/phpunit": "^4.8.36 || ^5.0 || ^6.0 || ^7.0",
+                "squizlabs/php_codesniffer": "1.*"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Wujunze\\": "src"
+                    "PHP_Parallel_Lint\\PhpConsoleColor\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "BSD-2-Clause"
             ],
             "authors": [
                 {
-                    "name": "wujunze",
-                    "email": "itwujunze@163.com"
+                    "name": "Jakub Onderka",
+                    "email": "jakub.onderka@gmail.com"
                 }
             ],
-            "description": "Simple and easy to use the PHP command-line output of color",
-            "time": "2018-07-18T06:33:28+00:00"
+            "description": "Simple library for creating colored console ouput.",
+            "time": "2020-10-31T08:10:16+00:00"
         }
     ],
     "packages-dev": [

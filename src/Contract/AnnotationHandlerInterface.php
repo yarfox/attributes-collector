@@ -1,6 +1,6 @@
 <?php
 /**
- *  * The file is part of the annotation.
+ * The file is part of the annotation.
  *
  * (c) anhoder <anhoder@88.com>.
  *
@@ -11,6 +11,7 @@ namespace Anhoder\Annotation\Contract;
 
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
+use ReflectionAttribute;
 use ReflectionClass;
 use Reflector;
 
@@ -24,7 +25,7 @@ interface AnnotationHandlerInterface
      * @param $target
      * @return mixed
      */
-    public function setTarget(#[ExpectedValues(valuesFromClass: Attribute::class)] $target);
+    public function setTarget(#[ExpectedValues(valuesFromClass: Attribute::class)] int $target);
 
     /**
      * @param string $name class name or method name or property name or constant name
@@ -39,13 +40,13 @@ interface AnnotationHandlerInterface
     public function setClassReflection(ReflectionClass $reflection);
 
     /**
-     * @param object $attribute
+     * @param ReflectionAttribute $attribute
      * @return mixed
      */
-    public function setAnnotation(object $attribute);
+    public function setAnnotation(ReflectionAttribute $attribute);
 
     /**
      * @return mixed
      */
-    public function handler();
+    public function handle();
 }

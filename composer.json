@@ -13,11 +13,12 @@
     ],
     "require": {
         "php": ">=8.0",
-        "wujunze/php-cli-color": "^2.4"
+        "php-parallel-lint/php-console-color": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "Anhoder\\Annotation\\": "src/"
+            "Anhoder\\Annotation\\": "src/",
+            "Anhoder\\Annotation\\Test\\": "tests/"
         }
     },
     "description": ""

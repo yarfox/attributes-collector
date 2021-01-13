@@ -49,9 +49,9 @@ class AnnotationRegistry implements AnnotationRegistryInterface
 
     /**
      * @param string $annotation
-     * @return AnnotationHandlerInterface|null
+     * @return string|null
      */
-    public static function getAnnotationHandler(string $annotation): ?AnnotationHandlerInterface
+    public static function getAnnotationHandler(string $annotation): ?string
     {
         if (!isset(static::$annotationHandlers[$annotation])) return null;
         return static::$annotationHandlers[$annotation];

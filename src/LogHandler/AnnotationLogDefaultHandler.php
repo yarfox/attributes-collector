@@ -10,7 +10,7 @@
 namespace Anhoder\Annotation\LogHandler;
 
 use Anhoder\Annotation\Contract\LogHandlerInterface;
-use Wujunze\Colors;
+use PHP_Parallel_Lint\PhpConsoleColor\ConsoleColor;
 
 /**
  * Class AnnotationLogDefaultHandler
@@ -19,11 +19,22 @@ use Wujunze\Colors;
 class AnnotationLogDefaultHandler implements LogHandlerInterface
 {
     /**
+     * @var ConsoleColor
+     */
+    private ConsoleColor $console;
+
+    public function __construct()
+    {
+        $this->console = new ConsoleColor();
+    }
+
+    /**
      * @inheritDoc
      */
     public function errorHandle(string $content)
     {
-//        Colors::error("[ERROR] {$content}");
+        $txt = $this->console->apply(['red', 'bold'], "[ERROR] {$content}\n");
+        fputs(STDERR, $txt);
     }
 
     /**
@@ -31,7 +42,8 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
      */
     public function infoHandle(string $content)
     {
-//        Colors::notice("[INFO] {$content}");
+        $txt = $this->console->apply(['bold', 'default'], "[INFO] {$content}\n");
+        fputs(STDOUT, $txt);
     }
 
     /**
@@ -39,7 +51,8 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
      */
     public function successHandle(string $content)
     {
-//        Colors::success("[SUCCESS] {$content}");
+        $txt = $this->console->apply(['bold', 'green'], "[SUCCESS] {$content}\n");
+        fputs(STDOUT, $txt);
     }
 
     /**
@@ -47,6 +60,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
      */
     public function warningHandle(string $content)
     {
-//        Colors::warn("[WARNING] {$content}");
+        $txt = $this->console->apply(['bold', 'yellow'], "[WARNING] {$content}\n");
+        fputs(STDOUT, $txt);
     }
 }

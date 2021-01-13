@@ -135,21 +135,21 @@ class AnnotationConfigCollector
                 // check file
                 $filepath = rtrim($dir, '/') . '/' . $this->annotationConfigFile;
                 if (!file_exists($filepath)) {
-                    $logHandler->infoHandle("Annotation: file({$filepath}) not exists.");
+                    $logHandler->warningHandle("Annotation: file({$filepath}) not exists.");
                     continue;
                 }
 
                 // check class
                 $className = $namespace . $this->annotationConfigClass;
                 if (!class_exists($className)) {
-                    $logHandler->infoHandle("Annotation: class($className) not exists.");
+                    $logHandler->warningHandle("Annotation: class($className) not exists.");
                     continue;
                 }
 
                 // check interface
                 $interfaces = class_implements($className);
                 if (!isset($interfaces[AnnotationConfigInterface::class])) {
-                    $logHandler->infoHandle("Annotation: class({$className}) unimplemented AnnotationConfigInterface");
+                    $logHandler->warningHandle("Annotation: class({$className}) unimplemented AnnotationConfigInterface");
                     continue;
                 }
 
