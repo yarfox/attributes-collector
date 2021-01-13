@@ -18,6 +18,6 @@ class ClassAnnotationHandler extends AbstractAnnotationHandler
 {
     public function handle()
     {
-        dump($this);
+        var_dump($this);
     }
 }
