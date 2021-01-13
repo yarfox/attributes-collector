@@ -1,5 +1,5 @@
 {
-    "name": "anhoder/annotation",
+    "name": "anhoder/annotations",
     "type": "library",
     "require-dev": {
         "symfony/var-dumper": "^5.2"
