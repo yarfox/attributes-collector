@@ -34,7 +34,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     public function errorHandle(string $content)
     {
         $txt = $this->console->apply(['red', 'bold'], "[ERROR] {$content}\n");
-        fputs(STDERR, $txt);
+        echo $txt;
     }
 
     /**
@@ -43,7 +43,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     public function infoHandle(string $content)
     {
         $txt = $this->console->apply(['bold', 'default'], "[INFO] {$content}\n");
-        fputs(STDOUT, $txt);
+        echo $txt;
     }
 
     /**
@@ -52,7 +52,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     public function successHandle(string $content)
     {
         $txt = $this->console->apply(['bold', 'green'], "[SUCCESS] {$content}\n");
-        fputs(STDOUT, $txt);
+        echo $txt;
     }
 
     /**
@@ -61,6 +61,6 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     public function warningHandle(string $content)
     {
         $txt = $this->console->apply(['bold', 'yellow'], "[WARNING] {$content}\n");
-        fputs(STDOUT, $txt);
+        echo $txt;
     }
 }

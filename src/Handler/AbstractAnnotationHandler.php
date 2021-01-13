@@ -19,7 +19,7 @@ use ReflectionClass;
  * Class Handler
  * @package Anhoder\Annotation\Annotation
  */
-abstract class Handler implements AnnotationHandlerInterface
+abstract class AbstractAnnotationHandler implements AnnotationHandlerInterface
 {
     /**
      * @var int

@@ -9,6 +9,7 @@
 
 namespace Anhoder\Annotation;
 
+use Anhoder\Annotation\Annotation\AnnotationHandler;
 use Anhoder\Annotation\Contract\AnnotationEntityInterface;
 use Anhoder\Annotation\Contract\AnnotationHandlerInterface;
 use Anhoder\Annotation\Contract\HandlerSchedulerInterface;
@@ -28,6 +29,14 @@ use Throwable;
  */
 class AnnotationHandlerScheduler implements HandlerSchedulerInterface
 {
+    /**
+     * @var string[]
+     */
+    public static $ignoreAnnotation = [
+        Attribute::class         => Attribute::class,
+        AnnotationHandler::class => AnnotationHandler::class,
+    ];
+
     /**
      * @inheritDoc
      */
@@ -109,13 +118,14 @@ class AnnotationHandlerScheduler implements HandlerSchedulerInterface
      * @param AnnotationEntityInterface $entity
      * @param array $annotations
      */
-    private function handleAnnotations(#[ExpectedValues(valuesFromClass: Attribute::class)] int $target,
-                                       ReflectionClass $reflectionClass, AnnotationEntityInterface $entity, array $annotations)
+    private function handleAnnotations(#[ExpectedValues(valuesFromClass: Attribute::class)] int $target, ReflectionClass $reflectionClass, AnnotationEntityInterface $entity, array $annotations)
     {
         foreach ($annotations as $annotation) {
             /**
              * @var $annotation \ReflectionAttribute
              */
+            if (isset(static::$ignoreAnnotation[$annotation->getName()])) continue;
+
             $handlerName = AnnotationRegistry::getAnnotationHandler($annotation->getName());
             if (!$handlerName) {
                 AnnotationHelper::getLogHandler()->warningHandle("{$annotation->getName()} don't has handler.");
@@ -129,7 +139,8 @@ class AnnotationHandlerScheduler implements HandlerSchedulerInterface
 
             $handler = new $handlerName();
             if (!$handler instanceof AnnotationHandlerInterface) {
-                AnnotationHelper::getLogHandler()->warningHandle("{$handlerName} unimplemented AnnotationHandlerInterface.");
+                AnnotationHelper::getLogHandler()
+                    ->warningHandle("{$handlerName} unimplemented AnnotationHandlerInterface.");
                 continue;
             }
 
@@ -141,7 +152,8 @@ class AnnotationHandlerScheduler implements HandlerSchedulerInterface
 
                 $handler->handle();
             } catch (Throwable $e) {
-                AnnotationHelper::getLogHandler()->errorHandle("{$annotation->getName()} handle() execute fails: {$e->getMessage()}");
+                AnnotationHelper::getLogHandler()
+                    ->errorHandle("{$annotation->getName()} handle() execute fails: {$e->getMessage()}");
             }
         }
     }

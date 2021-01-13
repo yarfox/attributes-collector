@@ -10,10 +10,14 @@
 namespace Anhoder\Annotation\Test\Handler;
 
 use Anhoder\Annotation\Annotation\AnnotationHandler;
+use Anhoder\Annotation\Handler\AbstractAnnotationHandler;
 use Anhoder\Annotation\Test\Annotation\ClassAnnotation;
 
 #[AnnotationHandler(ClassAnnotation::class)]
-class ClassAnnotationHandler
+class ClassAnnotationHandler extends AbstractAnnotationHandler
 {
-
+    public function handle()
+    {
+        dump($this);
+    }
 }
