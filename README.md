@@ -1,4 +1,4 @@
-# annotations
+# annotations-collector
 
 PHP8 annotation collector.
 
