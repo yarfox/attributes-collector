@@ -9,7 +9,7 @@ PHP8 annotation collector.
 ### Install
 
 ```shell
-composer require anhoder/annotations
+composer require anhoder/annotations-collector
 ```
 
 ### Usage
