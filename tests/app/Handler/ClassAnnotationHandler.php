@@ -18,6 +18,11 @@ class ClassAnnotationHandler extends AbstractAnnotationHandler
 {
     public function handle()
     {
+        /**
+         * @var $annotation ClassAnnotation
+         */
         var_dump($this);
+        $annotation = $this->annotation;
+        var_dump($annotation->getTest());
     }
 }

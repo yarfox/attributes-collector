@@ -40,10 +40,10 @@ interface AnnotationHandlerInterface
     public function setClassReflection(ReflectionClass $reflection);
 
     /**
-     * @param ReflectionAttribute $attribute
+     * @param object $attributeObject
      * @return mixed
      */
-    public function setAnnotation(ReflectionAttribute $attribute);
+    public function setAnnotation(object $attributeObject);
 
     /**
      * @return mixed

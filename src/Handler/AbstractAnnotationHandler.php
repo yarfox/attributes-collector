@@ -37,9 +37,9 @@ abstract class AbstractAnnotationHandler implements AnnotationHandlerInterface
     protected ReflectionClass $reflectionClass;
 
     /**
-     * @var ReflectionAttribute
+     * @var object
      */
-    protected ReflectionAttribute $annotation;
+    protected object $annotation;
 
     /**
      * @inheritDoc
@@ -68,9 +68,9 @@ abstract class AbstractAnnotationHandler implements AnnotationHandlerInterface
     /**
      * @inheritDoc
      */
-    public function setAnnotation(ReflectionAttribute $attribute)
+    public function setAnnotation(object $attributeObject)
     {
-        $this->annotation = $attribute;
+        $this->annotation = $attributeObject;
     }
 
     /**

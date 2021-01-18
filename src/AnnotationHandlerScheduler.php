@@ -124,7 +124,8 @@ class AnnotationHandlerScheduler implements HandlerSchedulerInterface
             /**
              * @var $annotation \ReflectionAttribute
              */
-            if (isset(static::$ignoreAnnotation[$annotation->getName()])) continue;
+            if (isset(static::$ignoreAnnotation[$annotation->getName()]))
+                continue;
 
             $handlerName = AnnotationRegistry::getAnnotationHandler($annotation->getName());
             if (!$handlerName) {
@@ -148,7 +149,10 @@ class AnnotationHandlerScheduler implements HandlerSchedulerInterface
                 $handler->setTarget($target);
                 $handler->setTargetName($entity->getReflection()->getName());
                 $handler->setClassReflection($reflectionClass);
-                $handler->setAnnotation($annotation);
+
+                $attributeClass = $annotation->getName();
+                $attributeObject = new $attributeClass(...$annotation->getArguments());
+                $handler->setAnnotation($attributeObject);
 
                 $handler->handle();
             } catch (Throwable $e) {

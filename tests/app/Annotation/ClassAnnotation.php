@@ -23,4 +23,9 @@ class ClassAnnotation
     {
         $this->test = $test;
     }
+
+    public function getTest()
+    {
+        return $this->test;
+    }
 }
