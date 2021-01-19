@@ -10,6 +10,7 @@
 namespace Anhoder\Annotation;
 
 use Anhoder\Annotation\Contract\AnnotationConfigInterface;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * Class AnnotationConfig
@@ -17,13 +18,12 @@ use Anhoder\Annotation\Contract\AnnotationConfigInterface;
  */
 class AnnotationConfig implements AnnotationConfigInterface
 {
-
     /**
      * @inheritDoc
      */
+    #[ArrayShape(['scanDirs' => 'array'])]
     public static function getAnnotationConfigs(): array
     {
-
         return [
             'scanDirs' => [
                 __NAMESPACE__ => __DIR__,
