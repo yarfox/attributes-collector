@@ -12,15 +12,15 @@ namespace Anhoder\Annotation\Contract;
 use Composer\Autoload\ClassLoader;
 
 /**
- * Interface ScannerInterface
- * The Interface of annotation scanner.
+ * Interface AttributeScannerInterface
+ * The Interface of attribute scanner.
  * @package Anhoder\Annotation\Contract
  * @internal
  */
-interface AnnotationScannerInterface
+interface ScannerInterface
 {
     /**
-     * Load annotation by scanning all psr4 prefix namespace from composer loader.
+     * Load attribute by scanning all psr4 prefix namespace from composer loader.
      */
     public function scan();
 }

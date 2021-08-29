@@ -7,10 +7,9 @@
  * 2021/1/14 12:00 上午
  */
 
-use Anhoder\Annotation\AnnotationHelper;
-use Anhoder\Annotation\LogHandler\AnnotationLogDefaultHandler;
+use Anhoder\Annotation\AttributeKeeper;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-AnnotationHelper::registerLogHandler(new AnnotationLogDefaultHandler);
-AnnotationHelper::scan();
+AttributeKeeper::bootloader();
+AttributeKeeper::collect();

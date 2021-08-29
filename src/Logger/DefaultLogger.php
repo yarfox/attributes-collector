@@ -7,16 +7,16 @@
  * 2020/12/24 2:04 下午
  */
 
-namespace Anhoder\Annotation\LogHandler;
+namespace Anhoder\Annotation\Logger;
 
-use Anhoder\Annotation\Contract\LogHandlerInterface;
+use Anhoder\Annotation\Contract\LoggerInterface;
 use PHP_Parallel_Lint\PhpConsoleColor\ConsoleColor;
 
 /**
- * Class AnnotationLogDefaultHandler
- * @package Anhoder\Annotation\Handler
+ * Class DefaultLogger
+ * @package Anhoder\Annotation\Logger
  */
-class AnnotationLogDefaultHandler implements LogHandlerInterface
+class DefaultLogger implements LoggerInterface
 {
     /**
      * @var ConsoleColor
@@ -31,7 +31,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     /**
      * @inheritDoc
      */
-    public function errorHandle(string $content)
+    public function error(string $content)
     {
         $txt = $this->console->apply(['red', 'bold'], "[ERROR] {$content}\n");
         fputs(STDERR, $txt);
@@ -40,7 +40,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     /**
      * @inheritDoc
      */
-    public function infoHandle(string $content)
+    public function info(string $content)
     {
         $txt = $this->console->apply(['bold', 'default'], "[INFO] {$content}\n");
         fputs(STDOUT, $txt);
@@ -49,7 +49,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     /**
      * @inheritDoc
      */
-    public function successHandle(string $content)
+    public function success(string $content)
     {
         $txt = $this->console->apply(['bold', 'green'], "[SUCCESS] {$content}\n");
         fputs(STDOUT, $txt);
@@ -58,7 +58,7 @@ class AnnotationLogDefaultHandler implements LogHandlerInterface
     /**
      * @inheritDoc
      */
-    public function warningHandle(string $content)
+    public function warning(string $content)
     {
         $txt = $this->console->apply(['bold', 'yellow'], "[WARNING] {$content}\n");
         fputs(STDOUT, $txt);

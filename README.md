@@ -1,10 +1,10 @@
 # annotations-collector
 
-PHP8 annotation collector.
+PHP8 attribute collector.
 
 ### Required
 
-* php 8
+* php>=8
 
 ### Install
 
@@ -15,16 +15,15 @@ composer require anhoder/annotations-collector
 ### Usage
 
 1. Install
-2. Add php file `AnnotationConfig.php` to your project.
+2. Add php file `AttributeConfig.php` to your project.
 
 ```php
-class AnnotationConfig implements AnnotationConfigInterface
+class AttributeConfig implements ConfigInterface
 {
-
-    public static function getAnnotationConfigs(): array
+    #[ArrayShape(['scanDirs' => 'array'])]
+    public static function getAttributeConfigs(): array
     {
         return [
-            // The dirs need to be scanned
             'scanDirs' => [
                 __NAMESPACE__ => __DIR__,
             ],
@@ -32,38 +31,47 @@ class AnnotationConfig implements AnnotationConfigInterface
     }
 }
 ```
-3. Add annotation and annotation handler.
+3. Add attribute and attribute handler.
 
 ```php
-// Annotation
+// Attribute
 #[Attribute(Attribute::TARGET_CLASS)]
-class ClassAnnotation
+class ClassAttribute
 {
     public const TEST = 'test';
 
     private string $test;
 
-    public function __construct(string $test)
+    public function __construct(#[ExpectedValues(valuesFromClass: ClassAttribute::class)] string $test)
     {
         $this->test = $test;
     }
+
+    public function getTest(): string
+    {
+        return $this->test;
+    }
 }
 
-// AnnotationHandler
-#[AnnotationHandler(ClassAnnotation::class)]
-class ClassAnnotationHandler extends AbstractAnnotationHandler
+// AttributeHandler
+#[AttributeHandler(ClassAttribute::class)]
+class ClassAttributeHandler extends AbstractHandler
 {
     public function handle()
     {
-        // Your logic.
+        /**
+         * @var $attribute ClassAttribute
+         */
         var_dump($this);
+        $attribute = $this->attribute;
+        var_dump($attribute->getTest());
     }
 }
 ```
 4. Start scan.
 
 ```php
-AnnotationHelper::scan();
+AttributeHelper::collect();
 ```
 
 ### Example

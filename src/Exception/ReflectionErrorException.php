@@ -24,8 +24,8 @@ class ReflectionErrorException extends Exception
 
     /**
      * ReflectionErrorException constructor.
-     * @param $object
-     * @param $contract
+     * @param object $object
+     * @param string $contract
      * @param int $code
      * @param null $previous
      */

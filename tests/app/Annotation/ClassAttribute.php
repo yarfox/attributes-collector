@@ -13,18 +13,18 @@ use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class ClassAnnotation
+class ClassAttribute
 {
     public const TEST = 'test';
 
     private string $test;
 
-    public function __construct(#[ExpectedValues(valuesFromClass: ClassAnnotation::class)] string $test)
+    public function __construct(#[ExpectedValues(valuesFromClass: ClassAttribute::class)] string $test)
     {
         $this->test = $test;
     }
 
-    public function getTest()
+    public function getTest(): string
     {
         return $this->test;
     }

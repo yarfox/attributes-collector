@@ -9,7 +9,7 @@
 
 namespace Anhoder\Annotation\Handler;
 
-use Anhoder\Annotation\Contract\AnnotationHandlerInterface;
+use Anhoder\Annotation\Contract\HandlerInterface;
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
 use ReflectionAttribute;
@@ -17,9 +17,9 @@ use ReflectionClass;
 
 /**
  * Class Handler
- * @package Anhoder\Annotation\Annotation
+ * @package Anhoder\Annotation
  */
-abstract class AbstractAnnotationHandler implements AnnotationHandlerInterface
+abstract class AbstractHandler implements HandlerInterface
 {
     /**
      * @var int
@@ -39,7 +39,7 @@ abstract class AbstractAnnotationHandler implements AnnotationHandlerInterface
     /**
      * @var object
      */
-    protected object $annotation;
+    protected object $attribute;
 
     /**
      * @inheritDoc
@@ -68,9 +68,9 @@ abstract class AbstractAnnotationHandler implements AnnotationHandlerInterface
     /**
      * @inheritDoc
      */
-    public function setAnnotation(object $attributeObject)
+    public function setAttribute(object $attributeObject)
     {
-        $this->annotation = $attributeObject;
+        $this->attribute = $attributeObject;
     }
 
     /**

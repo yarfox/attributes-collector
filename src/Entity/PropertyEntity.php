@@ -9,7 +9,7 @@
 
 namespace Anhoder\Annotation\Entity;
 
-use Anhoder\Annotation\Contract\AnnotationEntityInterface;
+use Anhoder\Annotation\Contract\EntityInterface;
 use Anhoder\Annotation\Exception\ReflectionErrorException;
 use Attribute;
 use ReflectionAttribute;
@@ -17,10 +17,10 @@ use ReflectionProperty;
 use Reflector;
 
 /**
- * Class PropertyAnnotationEntity
+ * Class PropertyAttributeEntity
  * @package Anhoder\Annotation\Entity
  */
-class PropertyAnnotationEntity implements AnnotationEntityInterface
+class PropertyEntity implements EntityInterface
 {
     /**
      * @return ReflectionProperty
@@ -32,7 +32,7 @@ class PropertyAnnotationEntity implements AnnotationEntityInterface
     /**
      * @var ReflectionAttribute[]
      */
-    private array $annotations = [];
+    private array $attributes = [];
 
     /**
      * @var ReflectionProperty
@@ -40,7 +40,7 @@ class PropertyAnnotationEntity implements AnnotationEntityInterface
     private ReflectionProperty $reflection;
 
     /**
-     * PropertyAnnotationEntity constructor.
+     * PropertyAttributeEntity constructor.
      * @param Reflector $reflector
      * @throws ReflectionErrorException
      */
@@ -56,19 +56,19 @@ class PropertyAnnotationEntity implements AnnotationEntityInterface
     /**
      * @inheritDoc
      */
-    public function getAnnotations(): array
+    public function getAttributes(): array
     {
-        return $this->annotations;
+        return $this->attributes;
     }
 
     /**
-     * @param $annotation
+     * @param \ReflectionAttribute $attribute
      */
-    public function registerAnnotation(ReflectionAttribute $annotation)
+    public function registerAttribute(ReflectionAttribute $attribute)
     {
-        if (Attribute::TARGET_PROPERTY & $annotation->getTarget()) {
-            $name = $annotation->getName();
-            $this->annotations[$name] = $annotation;
+        if (Attribute::TARGET_PROPERTY & $attribute->getTarget()) {
+            $name = $attribute->getName();
+            $this->attributes[$name] = $attribute;
         }
     }
 }

@@ -13,15 +13,15 @@ use Reflection;
 use Reflector;
 
 /**
- * Interface AnnotationEntityInterface
- * The interface of annotation entity, like class, method, property.
+ * Interface AttributeEntityInterface
+ * The interface of attribute entity, like class, method, property.
  * @package Anhoder\Annotation\Contract
  * @internal
  */
-interface AnnotationEntityInterface
+interface EntityInterface
 {
     /**
-     * AnnotationEntityInterface constructor.
+     * AttributeEntityInterface constructor.
      * @param Reflector $reflector
      */
     public function __construct(Reflector $reflector);
@@ -30,7 +30,7 @@ interface AnnotationEntityInterface
      * Get annotations.
      * @return \ReflectionAttribute[]
      */
-    public function getAnnotations(): array;
+    public function getAttributes(): array;
 
     /**
      * @return Reflector

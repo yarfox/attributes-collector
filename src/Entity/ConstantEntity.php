@@ -9,7 +9,7 @@
 
 namespace Anhoder\Annotation\Entity;
 
-use Anhoder\Annotation\Contract\AnnotationEntityInterface;
+use Anhoder\Annotation\Contract\EntityInterface;
 use Anhoder\Annotation\Exception\ReflectionErrorException;
 use Attribute;
 use ReflectionAttribute;
@@ -17,10 +17,10 @@ use ReflectionClassConstant;
 use Reflector;
 
 /**
- * Class ConstantAnnotationEntity
+ * Class ConstantAttributeEntity
  * @package Anhoder\Annotation\Entity
  */
-class ConstantAnnotationEntity implements AnnotationEntityInterface
+class ConstantEntity implements EntityInterface
 {
     /**
      * @return ReflectionClassConstant
@@ -32,7 +32,7 @@ class ConstantAnnotationEntity implements AnnotationEntityInterface
     /**
      * @var ReflectionAttribute[]
      */
-    private array $annotations = [];
+    private array $attributes = [];
 
     /**
      * @var ReflectionClassConstant
@@ -40,7 +40,7 @@ class ConstantAnnotationEntity implements AnnotationEntityInterface
     private ReflectionClassConstant $reflection;
 
     /**
-     * ConstantAnnotationEntity constructor.
+     * ConstantAttributeEntity constructor.
      * @param Reflector $reflector
      * @throws ReflectionErrorException
      */
@@ -56,19 +56,19 @@ class ConstantAnnotationEntity implements AnnotationEntityInterface
     /**
      * @return ReflectionAttribute[]
      */
-    public function getAnnotations(): array
+    public function getAttributes(): array
     {
-        return $this->annotations;
+        return $this->attributes;
     }
 
     /**
-     * @param $annotation
+     * @param \ReflectionAttribute $attribute
      */
-    public function registerAnnotation(ReflectionAttribute $annotation)
+    public function registerAttribute(ReflectionAttribute $attribute)
     {
-        if (Attribute::TARGET_CLASS_CONSTANT & $annotation->getTarget()) {
-            $name = $annotation->getName();
-            $this->annotations[$name] = $annotation;
+        if (Attribute::TARGET_CLASS_CONSTANT & $attribute->getTarget()) {
+            $name = $attribute->getName();
+            $this->attributes[$name] = $attribute;
         }
     }
 }

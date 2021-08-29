@@ -13,29 +13,29 @@ namespace Anhoder\Annotation\Contract;
  * Interface HandlerInterface
  * @package Anhoder\Annotation\Contract
  */
-interface LogHandlerInterface
+interface LoggerInterface
 {
     /**
      * @param string $content
-     * @return mixed
+     * @return void
      */
-    public function errorHandle(string $content);
+    public function error(string $content);
 
     /**
      * @param string $content
-     * @return mixed
+     * @return void
      */
-    public function infoHandle(string $content);
+    public function info(string $content);
 
     /**
      * @param string $content
-     * @return mixed
+     * @return void
      */
-    public function successHandle(string $content);
+    public function success(string $content);
 
     /**
      * @param string $content
-     * @return mixed
+     * @return void
      */
-    public function warningHandle(string $content);
+    public function warning(string $content);
 }

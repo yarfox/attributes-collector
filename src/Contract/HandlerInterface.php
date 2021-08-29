@@ -11,42 +11,40 @@ namespace Anhoder\Annotation\Contract;
 
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
-use ReflectionAttribute;
 use ReflectionClass;
-use Reflector;
 
 /**
- * Interface HandlerInterface
+ * Interface AttributeHandlerInterface
  * @package Anhoder\Annotation\Contract
  */
-interface AnnotationHandlerInterface
+interface HandlerInterface
 {
     /**
-     * @param $target
-     * @return mixed
+     * @param int $target
+     * @return void
      */
     public function setTarget(#[ExpectedValues(valuesFromClass: Attribute::class)] int $target);
 
     /**
      * @param string $name class name or method name or property name or constant name
-     * @return mixed
+     * @return void
      */
     public function setTargetName(string $name);
 
     /**
      * @param ReflectionClass $reflection
-     * @return mixed
+     * @return void
      */
     public function setClassReflection(ReflectionClass $reflection);
 
     /**
      * @param object $attributeObject
-     * @return mixed
+     * @return void
      */
-    public function setAnnotation(object $attributeObject);
+    public function setAttribute(object $attributeObject);
 
     /**
-     * @return mixed
+     * @return void
      */
     public function handle();
 }

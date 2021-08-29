@@ -9,14 +9,14 @@
 
 namespace Anhoder\Annotation;
 
-use Anhoder\Annotation\Annotation\AnnotationHandler;
-use Anhoder\Annotation\Contract\AnnotationScannerInterface;
-use Anhoder\Annotation\Entity\ClassAnnotationEntity;
-use Anhoder\Annotation\Entity\ConstantAnnotationEntity;
-use Anhoder\Annotation\Entity\MethodAnnotationEntity;
-use Anhoder\Annotation\Entity\PropertyAnnotationEntity;
-use Anhoder\Annotation\Exception\NotFoundException;
-use Anhoder\Annotation\Registry\AnnotationRegistry;
+use Anhoder\Annotation\Attribute\AttributeHandler;
+use Anhoder\Annotation\Contract\LoggerInterface;
+use Anhoder\Annotation\Contract\RegistryInterface;
+use Anhoder\Annotation\Contract\ScannerInterface;
+use Anhoder\Annotation\Entity\ClassEntity;
+use Anhoder\Annotation\Entity\ConstantEntity;
+use Anhoder\Annotation\Entity\MethodEntity;
+use Anhoder\Annotation\Entity\PropertyEntity;
 use Attribute;
 use Composer\Autoload\ClassLoader;
 use Generator;
@@ -24,16 +24,11 @@ use RecursiveDirectoryIterator;
 use ReflectionClass;
 
 /**
- * Class AnnotationScanner
+ * Class AttributeScanner
  * @package Anhoder\Annotation\Scanner
  */
-class AnnotationScanner implements AnnotationScannerInterface
+class Scanner implements ScannerInterface
 {
-    /**
-     * @var AnnotationScanner|null
-     */
-    private static ?AnnotationScanner $instance = null;
-
     /**
      * @var array
      * @example
@@ -53,12 +48,18 @@ class AnnotationScanner implements AnnotationScannerInterface
     private array $realpathAssocNamespace = [];
 
     /**
-     * AnnotationScanner constructor.
-     * @param AnnotationConfigCollector $configCollector
+     * AttributeScanner constructor.
+     * @param ConfigCollector $configCollector
      * @param ClassLoader $composerLoader
+     * @param \Anhoder\Annotation\Contract\RegistryInterface $registry
+     * @param \Anhoder\Annotation\Contract\LoggerInterface|null $logger
      */
-    private function __construct(private AnnotationConfigCollector $configCollector, private ClassLoader $composerLoader)
-    {
+    public function __construct(
+        private ConfigCollector $configCollector,
+        private ClassLoader $composerLoader,
+        private RegistryInterface $registry,
+        private ?LoggerInterface $logger
+    ) {
         // init scanDirs
         foreach ($this->configCollector->getConfigs() as $parentNamespace => $configs) {
 
@@ -67,7 +68,7 @@ class AnnotationScanner implements AnnotationScannerInterface
             foreach ($configs['scanDirs'] as $namespace => $scanDir) {
                 $realpath = realpath($scanDir);
                 if (false === $realpath || !is_dir($realpath)) {
-                    AnnotationHelper::getLogHandler()->warningHandle("Path({$scanDir}) not exists or it is not dir.");
+                    $this->logger && $this->logger->warning("Path({$scanDir}) not exists or it is not dir.");
                     continue;
                 }
 
@@ -86,32 +87,16 @@ class AnnotationScanner implements AnnotationScannerInterface
     }
 
     /**
-     * @return AnnotationScanner
-     * @throws NotFoundException
-     */
-    public static function getInstance(): static
-    {
-        if (!static::$instance) {
-            $configCollector = AnnotationConfigCollector::getInstance();
-            $composerLoader = AnnotationHelper::getComposerLoader();
-            static::$instance = new static($configCollector, $composerLoader);
-        }
-
-        return static::$instance;
-    }
-
-    /**
      * @throws Exception\ReflectionErrorException
      * @throws \ReflectionException
      */
     public function scan()
     {
         foreach ($this->scanDirs as $namespace => $dir) {
-            $this->parseAnnotationClassesFromDir($namespace, $dir);
+            $this->parseAttributeClassesFromDir($namespace, $dir);
         }
 
-        $logger = AnnotationHelper::getLogHandler();
-        $logger->successHandle('Annotation scan success.');
+        $this->logger && $this->logger->success('Attribute scan success.');
     }
 
     /**
@@ -120,7 +105,7 @@ class AnnotationScanner implements AnnotationScannerInterface
      * @throws Exception\ReflectionErrorException
      * @throws \ReflectionException
      */
-    private function parseAnnotationClassesFromDir(string $namespace, string $dir)
+    private function parseAttributeClassesFromDir(string $namespace, string $dir)
     {
         $reflectionClassGenerator = $this->getReflectionClassesFromDir($namespace, $dir);
 
@@ -129,46 +114,46 @@ class AnnotationScanner implements AnnotationScannerInterface
              * @var $reflectionClass ReflectionClass
              */
 
-            $classEntity = new ClassAnnotationEntity($reflectionClass);
+            $classEntity = new ClassEntity($reflectionClass);
 
             // Classes
-            $hasClassAnnotation = $this->parseAnnotationClasses($classEntity, $reflectionClass);
+            $hasClassAttribute = $this->parseAttributeClasses($classEntity, $reflectionClass);
 
             // Constants
-            $hasConstantAnnotation = $this->parseAnnotationConstants($classEntity, $reflectionClass);
+            $hasConstantAttribute = $this->parseAttributeConstants($classEntity, $reflectionClass);
 
             // Properties
-            $hasPropertyAnnotation = $this->parseAnnotationProperties($classEntity, $reflectionClass);
+            $hasPropertyAttribute = $this->parseAttributeProperties($classEntity, $reflectionClass);
 
             // Methods
-            $hasMethodAnnotation = $this->parseAnnotationMethods($classEntity, $reflectionClass);
+            $hasMethodAttribute = $this->parseAttributeMethods($classEntity, $reflectionClass);
 
-            if ($hasClassAnnotation || $hasConstantAnnotation || $hasPropertyAnnotation || $hasMethodAnnotation) {
-                AnnotationRegistry::registerAnnotation($reflectionClass->getNamespaceName(), $reflectionClass->getName(), $classEntity);
+            if ($hasClassAttribute || $hasConstantAttribute || $hasPropertyAttribute || $hasMethodAttribute) {
+                $this->registry->registerAttribute($reflectionClass->getNamespaceName(), $reflectionClass->getName(), $classEntity);
             }
         }
     }
 
     /**
-     * @param ClassAnnotationEntity $classEntity
+     * @param ClassEntity $classEntity
      * @param ReflectionClass $reflectionClass
      * @return bool
      */
-    private function parseAnnotationClasses(ClassAnnotationEntity $classEntity, ReflectionClass $reflectionClass)
+    private function parseAttributeClasses(ClassEntity $classEntity, ReflectionClass $reflectionClass): bool
     {
         $attributes = $reflectionClass->getAttributes();
 
         if (empty($attributes)) return false;
 
         foreach ($attributes as $attribute) {
-            $classEntity->registerAnnotation($attribute);
+            $classEntity->registerAttribute($attribute);
 
-            // Annotation Handler
-            if ((Attribute::TARGET_CLASS & $attribute->getTarget()) && $attribute->getName() == AnnotationHandler::class) {
+            // Attribute Handler
+            if ((Attribute::TARGET_CLASS & $attribute->getTarget()) && $attribute->getName() == AttributeHandler::class) {
                 $args = $attribute->getArguments();
 
-                $handlerAnnotation = new AnnotationHandler(...$args);
-                AnnotationRegistry::registerAnnotationHandler($handlerAnnotation->getAnnotationClass(), $reflectionClass->getName());
+                $handlerAttribute = new AttributeHandler(...$args);
+                $this->registry->registerAttributeHandler($handlerAttribute->getAttributeClass(), $reflectionClass->getName());
             }
         }
 
@@ -176,18 +161,18 @@ class AnnotationScanner implements AnnotationScannerInterface
     }
 
     /**
-     * @param ClassAnnotationEntity $classEntity
+     * @param ClassEntity $classEntity
      * @param ReflectionClass $reflectionClass
      * @return bool
      * @throws Exception\ReflectionErrorException
      */
-    private function parseAnnotationConstants(ClassAnnotationEntity $classEntity, ReflectionClass $reflectionClass)
+    private function parseAttributeConstants(ClassEntity $classEntity, ReflectionClass $reflectionClass): bool
     {
         $hasAttribute = false;
         $constants = $reflectionClass->getReflectionConstants();
 
         foreach ($constants as $constant) {
-            $constantEntity = new ConstantAnnotationEntity($constant);
+            $constantEntity = new ConstantEntity($constant);
             $attributes = $constant->getAttributes();
 
             if (empty($attributes)) continue;
@@ -195,7 +180,7 @@ class AnnotationScanner implements AnnotationScannerInterface
             $hasAttribute = true;
 
             foreach ($attributes as $attribute) {
-                $constantEntity->registerAnnotation($attribute);
+                $constantEntity->registerAttribute($attribute);
             }
 
             $classEntity->registerConstant($constant->getName(), $constantEntity);
@@ -205,18 +190,18 @@ class AnnotationScanner implements AnnotationScannerInterface
     }
 
     /**
-     * @param ClassAnnotationEntity $classEntity
+     * @param ClassEntity $classEntity
      * @param ReflectionClass $reflectionClass
      * @return bool
      * @throws Exception\ReflectionErrorException
      */
-    private function parseAnnotationProperties(ClassAnnotationEntity $classEntity, ReflectionClass $reflectionClass)
+    private function parseAttributeProperties(ClassEntity $classEntity, ReflectionClass $reflectionClass): bool
     {
         $hasAttribute = false;
         $properties = $reflectionClass->getProperties();
 
         foreach ($properties as $property) {
-            $propertyEntity = new PropertyAnnotationEntity($property);
+            $propertyEntity = new PropertyEntity($property);
             $attributes = $property->getAttributes();
 
             if (empty($attributes)) continue;
@@ -224,7 +209,7 @@ class AnnotationScanner implements AnnotationScannerInterface
             $hasAttribute = true;
 
             foreach ($attributes as $attribute) {
-                $propertyEntity->registerAnnotation($attribute);
+                $propertyEntity->registerAttribute($attribute);
             }
 
             $classEntity->registerProperty($property->getName(), $propertyEntity);
@@ -235,18 +220,18 @@ class AnnotationScanner implements AnnotationScannerInterface
     }
 
     /**
-     * @param ClassAnnotationEntity $classEntity
+     * @param ClassEntity $classEntity
      * @param ReflectionClass $reflectionClass
      * @return bool
      * @throws Exception\ReflectionErrorException
      */
-    private function parseAnnotationMethods(ClassAnnotationEntity $classEntity, ReflectionClass $reflectionClass)
+    private function parseAttributeMethods(ClassEntity $classEntity, ReflectionClass $reflectionClass): bool
     {
         $hasAttribute = false;
         $methods = $reflectionClass->getMethods();
 
         foreach ($methods as $method) {
-            $methodEntity = new MethodAnnotationEntity($method);
+            $methodEntity = new MethodEntity($method);
             $attributes = $method->getAttributes();
 
             if (empty($attributes)) continue;
@@ -254,7 +239,7 @@ class AnnotationScanner implements AnnotationScannerInterface
             $hasAttribute = true;
 
             foreach ($attributes as $attribute) {
-                $methodEntity->registerAnnotation($attribute);
+                $methodEntity->registerAttribute($attribute);
             }
 
             $classEntity->registerMethod($method->getName(), $methodEntity);
@@ -279,7 +264,7 @@ class AnnotationScanner implements AnnotationScannerInterface
             $basename = $splFileInfo->getBasename();
 
             if ($splFileInfo->isDir()) {
-                if ($basename == '.' || $basename == '..' || $splFileInfo->getRealPath() == AnnotationHelper::getVendorPath()) {
+                if ($basename == '.' || $basename == '..' || $splFileInfo->getRealPath() == AttributeKeeper::getVendorPath()) {
                     // ignore . or .. or vendor
                     continue;
                 }

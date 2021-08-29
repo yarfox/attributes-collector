@@ -9,20 +9,20 @@
 
 namespace Anhoder\Annotation;
 
-use Anhoder\Annotation\Contract\AnnotationConfigInterface;
+use Anhoder\Annotation\Contract\ConfigInterface;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * Class AnnotationConfig
+ * Class AttributeConfig
  * @package Anhoder\Annotation
  */
-class AnnotationConfig implements AnnotationConfigInterface
+class AttributeConfig implements ConfigInterface
 {
     /**
      * @inheritDoc
      */
     #[ArrayShape(['scanDirs' => 'array'])]
-    public static function getAnnotationConfigs(): array
+    public static function getAttributeConfigs(): array
     {
         return [
             'scanDirs' => [

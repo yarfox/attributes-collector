@@ -12,14 +12,14 @@ namespace Anhoder\Annotation\Contract;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * Interface AnnotationConfigInterface
+ * Interface AttributeConfigInterface
  * @package Anhoder\Annotation\Contract
  */
-interface AnnotationConfigInterface
+interface ConfigInterface
 {
     /**
      * @return array
      */
     #[ArrayShape(['scanDirs' => 'array'])]
-    public static function getAnnotationConfigs(): array;
+    public static function getAttributeConfigs(): array;
 }

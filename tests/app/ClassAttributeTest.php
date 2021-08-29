@@ -9,10 +9,10 @@
 
 namespace Anhoder\Annotation\Test;
 
-use Anhoder\Annotation\Test\Annotation\ClassAnnotation;
+use Anhoder\Annotation\Test\Annotation\ClassAttribute;
 
-#[ClassAnnotation(ClassAnnotation::TEST)]
-class ClassAnnotationTest
+#[ClassAttribute(ClassAttribute::TEST)]
+class ClassAttributeTest
 {
 
 }

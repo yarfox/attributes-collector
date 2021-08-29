@@ -16,7 +16,7 @@ namespace Anhoder\Annotation\Contract;
 interface HandlerSchedulerInterface
 {
     /**
-     * @return mixed
+     * @return void
      */
     public function schedule();
 }

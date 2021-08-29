@@ -9,7 +9,7 @@
 
 namespace Anhoder\Annotation\Entity;
 
-use Anhoder\Annotation\Contract\AnnotationEntityInterface;
+use Anhoder\Annotation\Contract\EntityInterface;
 use Anhoder\Annotation\Exception\ReflectionErrorException;
 use Attribute;
 use ReflectionAttribute;
@@ -17,15 +17,15 @@ use ReflectionMethod;
 use Reflector;
 
 /**
- * Class MethodAnnotationEntity
+ * Class MethodAttributeEntity
  * @package Anhoder\Annotation\Entity
  */
-class MethodAnnotationEntity implements AnnotationEntityInterface
+class MethodEntity implements EntityInterface
 {
     /**
      * @var ReflectionAttribute[]
      */
-    private array $annotations = [];
+    private array $attributes = [];
 
     /**
      * @var ReflectionMethod
@@ -33,7 +33,7 @@ class MethodAnnotationEntity implements AnnotationEntityInterface
     private ReflectionMethod $reflection;
 
     /**
-     * MethodAnnotationEntity constructor.
+     * MethodAttributeEntity constructor.
      * @param Reflector $reflector
      * @throws ReflectionErrorException
      */
@@ -57,19 +57,19 @@ class MethodAnnotationEntity implements AnnotationEntityInterface
     /**
      * @inheritDoc
      */
-    public function getAnnotations(): array
+    public function getAttributes(): array
     {
-        return $this->annotations;
+        return $this->attributes;
     }
 
     /**
-     * @param $annotation
+     * @param \ReflectionAttribute $attribute
      */
-    public function registerAnnotation(ReflectionAttribute $annotation)
+    public function registerAttribute(ReflectionAttribute $attribute)
     {
-        if (Attribute::TARGET_METHOD & $annotation->getTarget()) {
-            $name = $annotation->getName();
-            $this->annotations[$name] = $annotation;
+        if (Attribute::TARGET_METHOD & $attribute->getTarget()) {
+            $name = $attribute->getName();
+            $this->attributes[$name] = $attribute;
         }
     }
 }
