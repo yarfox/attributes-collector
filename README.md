@@ -1,4 +1,4 @@
-# annotations-collector
+# annotations-collector (attributes-collector)
 
 PHP8 attribute collector.
 
