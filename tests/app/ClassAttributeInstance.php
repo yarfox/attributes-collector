@@ -12,7 +12,7 @@ namespace Anhoder\Annotation\Test;
 use Anhoder\Annotation\Test\Annotation\ClassAttribute;
 
 #[ClassAttribute(ClassAttribute::TEST)]
-class ClassAttributeTest
+class ClassAttributeInstance
 {
 
 }

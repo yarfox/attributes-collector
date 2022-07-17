@@ -20,5 +20,8 @@
         }
     },
     "description": "PHP8 annotation collector.",
-    "keywords": ["php8","annotation","attribute","collector"]
+    "keywords": ["php8","annotation","attribute","collector"],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
 }

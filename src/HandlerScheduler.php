@@ -158,8 +158,7 @@ class HandlerScheduler implements HandlerSchedulerInterface
                 $handler->setTargetName($entity->getReflection()->getName());
                 $handler->setClassReflection($reflectionClass);
 
-                $attributeClass = $attribute->getName();
-                $attributeObject = new $attributeClass(...$attribute->getArguments());
+                $attributeObject = $attribute->newInstance();
                 $handler->setAttribute($attributeObject);
 
                 $handler->handle();

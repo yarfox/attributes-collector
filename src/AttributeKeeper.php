@@ -26,7 +26,7 @@ use Composer\Autoload\ClassLoader;
 class AttributeKeeper
 {
     /**
-     * @var string
+     * @var string|null
      */
     private static ?string $vendorPath = null;
 
@@ -72,7 +72,7 @@ class AttributeKeeper
      * boot.
      * @throws NotFoundException
      */
-    public static function bootloader()
+    public static function bootloader(): void
     {
         if (!Container::getInstance(LoggerInterface::class)) {
             Container::registerInstance(LoggerInterface::class, new DefaultLogger());
@@ -87,7 +87,7 @@ class AttributeKeeper
     /**
      * start collect.
      */
-    public static function collect()
+    public static function collect(): void
     {
         /**
          * @var ScannerInterface $scanner

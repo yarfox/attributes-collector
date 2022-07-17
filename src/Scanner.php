@@ -150,9 +150,8 @@ class Scanner implements ScannerInterface
 
             // Attribute Handler
             if ((Attribute::TARGET_CLASS & $attribute->getTarget()) && $attribute->getName() == AttributeHandler::class) {
-                $args = $attribute->getArguments();
-
-                $handlerAttribute = new AttributeHandler(...$args);
+                $handlerAttribute = $attribute->newInstance();
+                
                 $this->registry->registerAttributeHandler($handlerAttribute->getAttributeClass(), $reflectionClass->getName());
             }
         }

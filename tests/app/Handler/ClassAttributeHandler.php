@@ -16,13 +16,20 @@ use Anhoder\Annotation\Test\Annotation\ClassAttribute;
 #[AttributeHandler(ClassAttribute::class)]
 class ClassAttributeHandler extends AbstractHandler
 {
+    /**
+     * @var array<ClassAttribute>
+     */
+    private static array $attributes;
+
+    public static function getAttributes(): array
+    {
+        return self::$attributes;
+    }
+
     public function handle()
     {
-        /**
-         * @var $attribute ClassAttribute
-         */
-        var_dump($this);
         $attribute = $this->attribute;
         var_dump($attribute->getTest());
+        self::$attributes[] = $attribute;
     }
 }
