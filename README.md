@@ -9,7 +9,7 @@ PHP8 attribute collector.
 ### Install
 
 ```shell
-composer require anhoder/attributes-collector
+composer require yarfox/attributes-collector
 ```
 
 ### Usage
