@@ -19,7 +19,7 @@ class ClassAttributeHandler extends AbstractHandler
     /**
      * @var array<ClassAttribute>
      */
-    private static array $attributes;
+    private static array $attributes = [];
 
     public static function getAttributes(): array
     {
