@@ -88,6 +88,6 @@ AttributeKeeper::collect();
 
 ### Example
 
-[example](./tests)
+[attributes-collector-example](https://github.com/yarfox/attributes-collector-example)
 
 
