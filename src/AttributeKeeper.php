@@ -13,6 +13,7 @@ use Yarfox\Attribute\Contract\HandlerSchedulerInterface;
 use Yarfox\Attribute\Contract\LoggerInterface;
 use Yarfox\Attribute\Contract\RegistryInterface;
 use Yarfox\Attribute\Contract\ScannerInterface;
+use Yarfox\Attribute\Exception\NotBootException;
 use Yarfox\Attribute\Exception\NotFoundException;
 use Yarfox\Attribute\Logger\DefaultLogger;
 use Yarfox\Attribute\Registry\Registry;
@@ -29,6 +30,11 @@ class AttributeKeeper
      * @var string|null
      */
     private static ?string $vendorPath = null;
+
+    /**
+     * @var bool
+     */
+    private static bool $hasBooted = false;
 
     /**
      * Get composer class autoloader.
@@ -82,13 +88,20 @@ class AttributeKeeper
         Container::registerSingletonProducer(RegistryInterface::class, Registry::class);
         Container::registerSingletonProducer(ScannerInterface::class, Scanner::class);
         Container::registerSingletonProducer(HandlerSchedulerInterface::class, HandlerScheduler::class);
+
+        self::$hasBooted = true;
     }
 
     /**
      * start collect.
+     * @throws NotBootException
      */
     public static function collect(): void
     {
+        if (!self::$hasBooted) {
+            throw new NotBootException();
+        }
+
         /**
          * @var ScannerInterface $scanner
          */
