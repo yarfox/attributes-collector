@@ -57,7 +57,7 @@ class ClassAttribute
 #[AttributeHandler(ClassAttribute::class)]
 class ClassAttributeHandler extends AbstractHandler
 {
-    public function handle()
+    public function handle(): void
     {
         /**
          * @var $attribute ClassAttribute
@@ -71,7 +71,8 @@ class ClassAttributeHandler extends AbstractHandler
 4. Start scan.
 
 ```php
-AttributeHelper::collect();
+AttributeKeeper::bootloader();
+AttributeKeeper::collect();
 ```
 
 ### Example
