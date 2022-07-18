@@ -1,20 +1,20 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
  * (c) anhoder <anhoder@88.com>.
  *
  * 2021/1/11 12:01 上午
  */
 
-namespace Anhoder\Annotation;
+namespace Yarfox\Attribute;
 
-use Anhoder\Annotation\Contract\ConfigInterface;
+use Yarfox\Attribute\Contract\ConfigInterface;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * Class AttributeConfig
- * @package Anhoder\Annotation
+ * @package Yarfox\Attribute
  */
 class AttributeConfig implements ConfigInterface
 {

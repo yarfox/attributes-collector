@@ -1,20 +1,20 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/21 9:35 上午
  */
 
-namespace Anhoder\Annotation\Contract;
+namespace Yarfox\Attribute\Contract;
 
 use Composer\Autoload\ClassLoader;
 
 /**
  * Interface AttributeScannerInterface
  * The Interface of attribute scanner.
- * @package Anhoder\Annotation\Contract
+ * @package Yarfox\Attribute\Contract
  * @internal
  */
 interface ScannerInterface

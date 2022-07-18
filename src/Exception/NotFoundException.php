@@ -1,19 +1,19 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/24 1:31 下午
  */
 
-namespace Anhoder\Annotation\Exception;
+namespace Yarfox\Attribute\Exception;
 
 use Exception;
 
 /**
  * Class NotFoundException
- * @package Anhoder\Annotation\Exception
+ * @package Yarfox\Attribute\Exception
  */
 class NotFoundException extends Exception
 {

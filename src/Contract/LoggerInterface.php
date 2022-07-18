@@ -1,17 +1,17 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) anhoder <anhoder@88.com>.
  *
  * 2020/12/21 9:31 上午
  */
 
-namespace Anhoder\Annotation\Contract;
+namespace Yarfox\Attribute\Contract;
 
 /**
  * Interface HandlerInterface
- * @package Anhoder\Annotation\Contract
+ * @package Yarfox\Attribute\Contract
  */
 interface LoggerInterface
 {
@@ -19,23 +19,23 @@ interface LoggerInterface
      * @param string $content
      * @return void
      */
-    public function error(string $content);
+    public function error(string $content): void;
 
     /**
      * @param string $content
      * @return void
      */
-    public function info(string $content);
+    public function info(string $content): void;
 
     /**
      * @param string $content
      * @return void
      */
-    public function success(string $content);
+    public function success(string $content): void;
 
     /**
      * @param string $content
      * @return void
      */
-    public function warning(string $content);
+    public function warning(string $content): void;
 }

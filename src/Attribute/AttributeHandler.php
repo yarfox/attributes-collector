@@ -1,19 +1,19 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) anhoder <anhoder@88.com>.
  *
  * 2020/12/20 10:43 下午
  */
 
-namespace Anhoder\Annotation\Attribute;
+namespace Yarfox\Attribute\Attribute;
 
 use Attribute;
 
 /**
- * AttributeHandler is an annotation used to mark the tagged class as an annotation handler.
- * @package Anhoder\Annotation
+ * AttributeHandler is an attribute used to mark the tagged class as an attribute handler.
+ * @package Yarfox\Attribute
  */
 #[Attribute(Attribute::TARGET_CLASS)]
 class AttributeHandler
@@ -33,7 +33,7 @@ class AttributeHandler
     }
 
     /**
-     * Get annotation class.
+     * Get attribute class.
      */
     public function getAttributeClass(): string
     {

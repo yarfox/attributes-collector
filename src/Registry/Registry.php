@@ -1,16 +1,16 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/20 11:14 下午
  */
 
-namespace Anhoder\Annotation\Registry;
+namespace Yarfox\Attribute\Registry;
 
-use Anhoder\Annotation\Contract\RegistryInterface;
-use Anhoder\Annotation\Entity\ClassEntity;
+use Yarfox\Attribute\Contract\RegistryInterface;
+use Yarfox\Attribute\Entity\ClassEntity;
 
 class Registry implements RegistryInterface
 {
@@ -59,9 +59,9 @@ class Registry implements RegistryInterface
     /**
      * @param string $namespace
      * @param string $className
-     * @param \Anhoder\Annotation\Entity\ClassEntity $classAttributeEntity
+     * @param \Yarfox\Attribute\Entity\ClassEntity $classAttributeEntity
      */
-    public function registerAttribute(string $namespace, string $className, ClassEntity $classAttributeEntity)
+    public function registerAttribute(string $namespace, string $className, ClassEntity $classAttributeEntity): void
     {
         $this->attributes[$namespace][$className] = $classAttributeEntity;
     }
@@ -70,7 +70,7 @@ class Registry implements RegistryInterface
      * @param string $attributeName
      * @param string $attributeHandler
      */
-    public function registerAttributeHandler(string $attributeName, string $attributeHandler)
+    public function registerAttributeHandler(string $attributeName, string $attributeHandler): void
     {
         $this->attributeHandlers[$attributeName] = $attributeHandler;
     }

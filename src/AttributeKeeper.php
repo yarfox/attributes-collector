@@ -1,27 +1,27 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/25 3:04 下午
  */
 
-namespace Anhoder\Annotation;
+namespace Yarfox\Attribute;
 
-use Anhoder\Annotation\Contract\HandlerSchedulerInterface;
-use Anhoder\Annotation\Contract\LoggerInterface;
-use Anhoder\Annotation\Contract\RegistryInterface;
-use Anhoder\Annotation\Contract\ScannerInterface;
-use Anhoder\Annotation\Exception\NotFoundException;
-use Anhoder\Annotation\Logger\DefaultLogger;
-use Anhoder\Annotation\Registry\Registry;
-use Anhoder\Container\Facade\Container;
+use Yarfox\Attribute\Contract\HandlerSchedulerInterface;
+use Yarfox\Attribute\Contract\LoggerInterface;
+use Yarfox\Attribute\Contract\RegistryInterface;
+use Yarfox\Attribute\Contract\ScannerInterface;
+use Yarfox\Attribute\Exception\NotFoundException;
+use Yarfox\Attribute\Logger\DefaultLogger;
+use Yarfox\Attribute\Registry\Registry;
+use Yarfox\Container\Facade\Container;
 use Composer\Autoload\ClassLoader;
 
 /**
  * Class AttributeKeeper
- * @package Anhoder\Annotation
+ * @package Yarfox\Attribute
  */
 class AttributeKeeper
 {

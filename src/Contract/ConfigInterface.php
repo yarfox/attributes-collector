@@ -1,19 +1,19 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/25 1:29 下午
  */
 
-namespace Anhoder\Annotation\Contract;
+namespace Yarfox\Attribute\Contract;
 
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * Interface AttributeConfigInterface
- * @package Anhoder\Annotation\Contract
+ * @package Yarfox\Attribute\Contract
  */
 interface ConfigInterface
 {

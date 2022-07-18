@@ -1,22 +1,22 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/25 12:23 上午
  */
 
-namespace Anhoder\Annotation;
+namespace Yarfox\Attribute;
 
-use Anhoder\Annotation\Contract\ConfigInterface;
-use Anhoder\Annotation\Contract\LoggerInterface;
+use Yarfox\Attribute\Contract\ConfigInterface;
+use Yarfox\Attribute\Contract\LoggerInterface;
 use Composer\Autoload\ClassLoader;
 
 /**
  * Class AttributeConfigCollector
- * Collect annotation configs from psr4 prefix dirs.
- * @package Anhoder\Annotation
+ * Collect attribute configs from psr4 prefix dirs.
+ * @package Yarfox\Attribute
  */
 class ConfigCollector
 {

@@ -9,7 +9,7 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="true">
-    <testsuite name="AnnotationsCollector">
+    <testsuite name="AttributesCollector">
         <directory>./tests</directory>
     </testsuite>
 </phpunit>

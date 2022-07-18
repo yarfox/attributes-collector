@@ -1,13 +1,13 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/21 10:51 下午
  */
 
-namespace Anhoder\Annotation\Contract;
+namespace Yarfox\Attribute\Contract;
 
 use Reflection;
 use Reflector;
@@ -15,7 +15,7 @@ use Reflector;
 /**
  * Interface AttributeEntityInterface
  * The interface of attribute entity, like class, method, property.
- * @package Anhoder\Annotation\Contract
+ * @package Yarfox\Attribute\Contract
  * @internal
  */
 interface EntityInterface
@@ -27,7 +27,7 @@ interface EntityInterface
     public function __construct(Reflector $reflector);
 
     /**
-     * Get annotations.
+     * Get attributes.
      * @return \ReflectionAttribute[]
      */
     public function getAttributes(): array;

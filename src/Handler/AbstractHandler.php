@@ -1,15 +1,15 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
  * (c) anhoder <anhoder@88.com>.
  *
  * 2021/1/11 10:24 下午
  */
 
-namespace Anhoder\Annotation\Handler;
+namespace Yarfox\Attribute\Handler;
 
-use Anhoder\Annotation\Contract\HandlerInterface;
+use Yarfox\Attribute\Contract\HandlerInterface;
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
 use ReflectionAttribute;
@@ -17,7 +17,7 @@ use ReflectionClass;
 
 /**
  * Class Handler
- * @package Anhoder\Annotation
+ * @package Yarfox\Attribute
  */
 abstract class AbstractHandler implements HandlerInterface
 {
@@ -44,7 +44,7 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @inheritDoc
      */
-    public function setTarget(#[ExpectedValues(valuesFromClass: Attribute::class)] $target)
+    public function setTarget(#[ExpectedValues(valuesFromClass: Attribute::class)] $target): void
     {
         $this->target = $target;
     }
@@ -52,7 +52,7 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @inheritDoc
      */
-    public function setTargetName(string $name)
+    public function setTargetName(string $name): void
     {
         $this->targetName = $name;
     }
@@ -60,7 +60,7 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @inheritDoc
      */
-    public function setClassReflection(ReflectionClass $reflection)
+    public function setClassReflection(ReflectionClass $reflection): void
     {
         $this->reflectionClass = $reflection;
     }
@@ -68,7 +68,7 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @inheritDoc
      */
-    public function setAttribute(object $attributeObject)
+    public function setAttribute(object $attributeObject): void
     {
         $this->attribute = $attributeObject;
     }
@@ -76,5 +76,5 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @inheritDoc
      */
-    abstract public function handle();
+    abstract public function handle(): void;
 }

@@ -1,22 +1,22 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/21 9:37 上午
  */
 
-namespace Anhoder\Annotation;
+namespace Yarfox\Attribute;
 
-use Anhoder\Annotation\Attribute\AttributeHandler;
-use Anhoder\Annotation\Contract\LoggerInterface;
-use Anhoder\Annotation\Contract\RegistryInterface;
-use Anhoder\Annotation\Contract\ScannerInterface;
-use Anhoder\Annotation\Entity\ClassEntity;
-use Anhoder\Annotation\Entity\ConstantEntity;
-use Anhoder\Annotation\Entity\MethodEntity;
-use Anhoder\Annotation\Entity\PropertyEntity;
+use Yarfox\Attribute\Attribute\AttributeHandler;
+use Yarfox\Attribute\Contract\LoggerInterface;
+use Yarfox\Attribute\Contract\RegistryInterface;
+use Yarfox\Attribute\Contract\ScannerInterface;
+use Yarfox\Attribute\Entity\ClassEntity;
+use Yarfox\Attribute\Entity\ConstantEntity;
+use Yarfox\Attribute\Entity\MethodEntity;
+use Yarfox\Attribute\Entity\PropertyEntity;
 use Attribute;
 use Composer\Autoload\ClassLoader;
 use Generator;
@@ -25,7 +25,7 @@ use ReflectionClass;
 
 /**
  * Class AttributeScanner
- * @package Anhoder\Annotation\Scanner
+ * @package Yarfox\Attribute\Scanner
  */
 class Scanner implements ScannerInterface
 {
@@ -51,8 +51,8 @@ class Scanner implements ScannerInterface
      * AttributeScanner constructor.
      * @param ConfigCollector $configCollector
      * @param ClassLoader $composerLoader
-     * @param \Anhoder\Annotation\Contract\RegistryInterface $registry
-     * @param \Anhoder\Annotation\Contract\LoggerInterface|null $logger
+     * @param \Yarfox\Attribute\Contract\RegistryInterface $registry
+     * @param \Yarfox\Attribute\Contract\LoggerInterface|null $logger
      */
     public function __construct(
         private ConfigCollector $configCollector,
@@ -151,7 +151,7 @@ class Scanner implements ScannerInterface
             // Attribute Handler
             if ((Attribute::TARGET_CLASS & $attribute->getTarget()) && $attribute->getName() == AttributeHandler::class) {
                 $handlerAttribute = $attribute->newInstance();
-                
+
                 $this->registry->registerAttributeHandler($handlerAttribute->getAttributeClass(), $reflectionClass->getName());
             }
         }

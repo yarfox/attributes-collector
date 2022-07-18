@@ -1,19 +1,19 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/21 11:22 下午
  */
 
-namespace Anhoder\Annotation\Exception;
+namespace Yarfox\Attribute\Exception;
 
 use Exception;
 
 /**
  * Class ReflectionErrorException
- * @package Anhoder\Annotation\Exception
+ * @package Yarfox\Attribute\Exception
  */
 class ReflectionErrorException extends Exception
 {

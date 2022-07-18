@@ -1,15 +1,15 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
  * (c) anhoder <anhoder@88.com>.
  *
  * 2021/1/13 1:15 下午
  */
 
-namespace Anhoder\Annotation\Test;
+namespace Yarfox\Attribute\Test;
 
-use Anhoder\Annotation\Test\Annotation\ClassAttribute;
+use Yarfox\Attribute\Test\Attribute\ClassAttribute;
 
 #[ClassAttribute(ClassAttribute::TEST)]
 class ClassAttributeInstance

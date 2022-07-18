@@ -6,4 +6,8 @@
 
 ## 0.2.0
 
-* update. `AbstractAnnotationHandler` property `annotation`
+* update. `AbstractAttributeHandler` property `attribute`
+
+## 1.0.0
+
+* transform to yarfox

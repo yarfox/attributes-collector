@@ -1,16 +1,16 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/21 11:04 下午
  */
 
-namespace Anhoder\Annotation\Entity;
+namespace Yarfox\Attribute\Entity;
 
-use Anhoder\Annotation\Contract\EntityInterface;
-use Anhoder\Annotation\Exception\ReflectionErrorException;
+use Yarfox\Attribute\Contract\EntityInterface;
+use Yarfox\Attribute\Exception\ReflectionErrorException;
 use Attribute;
 use Exception;
 use ReflectionAttribute;
@@ -20,7 +20,7 @@ use Serializable;
 
 /**
  * Class ClassAttributeEntity
- * @package Anhoder\Annotation\Entity
+ * @package Yarfox\Attribute\Entity
  */
 class ClassEntity implements EntityInterface
 {

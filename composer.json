@@ -1,25 +1,25 @@
 {
-    "name": "anhoder/annotations-collector",
+    "name": "yarfox/attributes-collector",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "anhoder",
+            "name": "yarfox",
             "email": "anhoder@88.com"
         }
     ],
     "require": {
         "php": ">=8.0",
         "php-parallel-lint/php-console-color": "^1.0",
-        "anhoder/container": "1.0.0-alpha"
+        "yarfox/container": "^1.0.0"
     },
     "autoload": {
         "psr-4": {
-            "Anhoder\\Annotation\\": "src/",
-            "Anhoder\\Annotation\\Test\\": "tests/app"
+            "Yarfox\\Attribute\\": "src/",
+            "Yarfox\\Attribute\\Test\\": "tests/app"
         }
     },
-    "description": "PHP8 annotation collector.",
+    "description": "PHP8 Attribute Collector.",
     "keywords": ["php8","annotation","attribute","collector"],
     "require-dev": {
         "phpunit/phpunit": "^9.5"

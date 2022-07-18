@@ -1,24 +1,24 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
  * (c) anhoder <anhoder@88.com>.
  *
  * 2021/1/11 11:01 下午
  */
 
-namespace Anhoder\Annotation;
+namespace Yarfox\Attribute;
 
-use Anhoder\Annotation\Attribute\AttributeHandler;
-use Anhoder\Annotation\Contract\EntityInterface;
-use Anhoder\Annotation\Contract\HandlerInterface;
-use Anhoder\Annotation\Contract\HandlerSchedulerInterface;
-use Anhoder\Annotation\Contract\LoggerInterface;
-use Anhoder\Annotation\Contract\RegistryInterface;
-use Anhoder\Annotation\Entity\ClassEntity;
-use Anhoder\Annotation\Entity\ConstantEntity;
-use Anhoder\Annotation\Entity\MethodEntity;
-use Anhoder\Annotation\Entity\PropertyEntity;
+use Yarfox\Attribute\Attribute\AttributeHandler;
+use Yarfox\Attribute\Contract\EntityInterface;
+use Yarfox\Attribute\Contract\HandlerInterface;
+use Yarfox\Attribute\Contract\HandlerSchedulerInterface;
+use Yarfox\Attribute\Contract\LoggerInterface;
+use Yarfox\Attribute\Contract\RegistryInterface;
+use Yarfox\Attribute\Entity\ClassEntity;
+use Yarfox\Attribute\Entity\ConstantEntity;
+use Yarfox\Attribute\Entity\MethodEntity;
+use Yarfox\Attribute\Entity\PropertyEntity;
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
 use ReflectionClass;
@@ -26,7 +26,7 @@ use Throwable;
 
 /**
  * Class AttributeHandlerScheduler
- * @package Anhoder\Annotation
+ * @package Yarfox\Attribute
  */
 class HandlerScheduler implements HandlerSchedulerInterface
 {
@@ -49,7 +49,7 @@ class HandlerScheduler implements HandlerSchedulerInterface
     /**
      * @inheritDoc
      */
-    public function schedule()
+    public function schedule(): void
     {
         foreach ($this->registry->getAttributes() as $namespace => $classEntities) {
 

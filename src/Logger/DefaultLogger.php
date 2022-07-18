@@ -1,20 +1,20 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
- * (c) alan <alan1766447919@gmail.com>.
+ * (c) alan <anhoder@88.com>.
  *
  * 2020/12/24 2:04 下午
  */
 
-namespace Anhoder\Annotation\Logger;
+namespace Yarfox\Attribute\Logger;
 
-use Anhoder\Annotation\Contract\LoggerInterface;
+use Yarfox\Attribute\Contract\LoggerInterface;
 use PHP_Parallel_Lint\PhpConsoleColor\ConsoleColor;
 
 /**
  * Class DefaultLogger
- * @package Anhoder\Annotation\Logger
+ * @package Yarfox\Attribute\Logger
  */
 class DefaultLogger implements LoggerInterface
 {
@@ -31,7 +31,7 @@ class DefaultLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function error(string $content)
+    public function error(string $content): void
     {
         $txt = $this->console->apply(['red', 'bold'], "[ERROR] {$content}\n");
         fputs(STDERR, $txt);
@@ -40,7 +40,7 @@ class DefaultLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function info(string $content)
+    public function info(string $content): void
     {
         $txt = $this->console->apply(['bold', 'default'], "[INFO] {$content}\n");
         fputs(STDOUT, $txt);
@@ -49,7 +49,7 @@ class DefaultLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function success(string $content)
+    public function success(string $content): void
     {
         $txt = $this->console->apply(['bold', 'green'], "[SUCCESS] {$content}\n");
         fputs(STDOUT, $txt);
@@ -58,7 +58,7 @@ class DefaultLogger implements LoggerInterface
     /**
      * @inheritDoc
      */
-    public function warning(string $content)
+    public function warning(string $content): void
     {
         $txt = $this->console->apply(['bold', 'yellow'], "[WARNING] {$content}\n");
         fputs(STDOUT, $txt);

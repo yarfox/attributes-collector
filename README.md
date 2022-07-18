@@ -1,4 +1,4 @@
-# annotations-collector (attributes-collector)
+# attributes-collector (annotations-collector)
 
 PHP8 attribute collector.
 
@@ -9,7 +9,7 @@ PHP8 attribute collector.
 ### Install
 
 ```shell
-composer require anhoder/annotations-collector
+composer require anhoder/attributes-collector
 ```
 
 ### Usage

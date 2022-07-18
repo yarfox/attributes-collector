@@ -1,13 +1,13 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
  * (c) anhoder <anhoder@88.com>.
  *
  * 2021/1/12 8:50 上午
  */
 
-namespace Anhoder\Annotation\Test\Annotation;
+namespace Yarfox\Attribute\Test\Attribute;
 
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;

@@ -1,10 +1,10 @@
 <?php
 
-use Anhoder\Annotation\AttributeKeeper;
-use Anhoder\Annotation\Test\Handler\ClassAttributeHandler;
+use Yarfox\Attribute\AttributeKeeper;
+use Yarfox\Attribute\Test\Handler\ClassAttributeHandler;
 use PHPUnit\Framework\TestCase;
 
-class AnnotationCollectorTest extends TestCase
+class AttributeCollectorTest extends TestCase
 {
     public function test()
     {

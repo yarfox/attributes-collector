@@ -1,22 +1,22 @@
 <?php
 /**
- * The file is part of the annotation.
+ * The file is part of the attribute.
  *
  * (c) anhoder <anhoder@88.com>.
  *
  * 2021/1/11 11:37 下午
  */
 
-namespace Anhoder\Annotation\Contract;
+namespace Yarfox\Attribute\Contract;
 
 /**
  * Interface HandlerSchedulerInterface
- * @package Anhoder\Annotation\Contract
+ * @package Yarfox\Attribute\Contract
  */
 interface HandlerSchedulerInterface
 {
     /**
      * @return void
      */
-    public function schedule();
+    public function schedule(): void;
 }
