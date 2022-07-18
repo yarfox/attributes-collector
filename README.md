@@ -68,7 +68,18 @@ class ClassAttributeHandler extends AbstractHandler
     }
 }
 ```
-4. Start scan.
+
+4. Use Attribute
+
+```php
+#[ClassAttribute(ClassAttribute::TEST)]
+class ClassAttributeTest
+{
+
+}
+```
+
+5. Start scan.
 
 ```php
 AttributeKeeper::bootloader();
