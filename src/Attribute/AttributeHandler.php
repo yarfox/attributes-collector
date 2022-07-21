@@ -19,18 +19,12 @@ use Attribute;
 class AttributeHandler
 {
     /**
-     * @var string
-     */
-    private string $attributeClass;
-
-    /**
      * AttributeHandler constructor.
      * @param string $attributeClass
      */
-    public function __construct(string $attributeClass)
-    {
-        $this->attributeClass = $attributeClass;
-    }
+    public function __construct(
+        private string $attributeClass
+    ) {}
 
     /**
      * Get attribute class.

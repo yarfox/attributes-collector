@@ -9,13 +9,15 @@
 
 namespace Yarfox\Attribute;
 
+use ReflectionMethod;
 use Yarfox\Attribute\Attribute\AttributeHandler;
 use Yarfox\Attribute\Contract\LoggerInterface;
 use Yarfox\Attribute\Contract\RegistryInterface;
 use Yarfox\Attribute\Contract\ScannerInterface;
 use Yarfox\Attribute\Entity\ClassEntity;
-use Yarfox\Attribute\Entity\ConstantEntity;
+use Yarfox\Attribute\Entity\ClassConstantEntity;
 use Yarfox\Attribute\Entity\MethodEntity;
+use Yarfox\Attribute\Entity\ParamEntity;
 use Yarfox\Attribute\Entity\PropertyEntity;
 use Attribute;
 use Composer\Autoload\ClassLoader;
@@ -119,8 +121,8 @@ class Scanner implements ScannerInterface
             // Classes
             $hasClassAttribute = $this->parseAttributeClasses($classEntity, $reflectionClass);
 
-            // Constants
-            $hasConstantAttribute = $this->parseAttributeConstants($classEntity, $reflectionClass);
+            // Class Constants
+            $hasConstantAttribute = $this->parseAttributeClassConstants($classEntity, $reflectionClass);
 
             // Properties
             $hasPropertyAttribute = $this->parseAttributeProperties($classEntity, $reflectionClass);
@@ -165,13 +167,13 @@ class Scanner implements ScannerInterface
      * @return bool
      * @throws Exception\ReflectionErrorException
      */
-    private function parseAttributeConstants(ClassEntity $classEntity, ReflectionClass $reflectionClass): bool
+    private function parseAttributeClassConstants(ClassEntity $classEntity, ReflectionClass $reflectionClass): bool
     {
         $hasAttribute = false;
         $constants = $reflectionClass->getReflectionConstants();
 
         foreach ($constants as $constant) {
-            $constantEntity = new ConstantEntity($constant);
+            $constantEntity = new ClassConstantEntity($constant);
             $attributes = $constant->getAttributes();
 
             if (empty($attributes)) continue;
@@ -182,7 +184,7 @@ class Scanner implements ScannerInterface
                 $constantEntity->registerAttribute($attribute);
             }
 
-            $classEntity->registerConstant($constant->getName(), $constantEntity);
+            $classEntity->registerClassConstant($constant->getName(), $constantEntity);
         }
 
         return $hasAttribute;
@@ -233,15 +235,46 @@ class Scanner implements ScannerInterface
             $methodEntity = new MethodEntity($method);
             $attributes = $method->getAttributes();
 
+            // Register method attributes
+            foreach ($attributes as $attribute) {
+                $methodEntity->registerAttribute($attribute);
+            }
+
+            // Register param attributes of method.
+            $hasParamAttribute = $this->parseAttributeMethodParams($methodEntity, $method);
+            if ($attributes || $hasParamAttribute) {
+                $hasAttribute = true;
+                $classEntity->registerMethod($method->getName(), $methodEntity);
+            }
+        }
+
+        return $hasAttribute;
+    }
+
+    /**
+     * @param MethodEntity $methodEntity
+     * @param ReflectionMethod $reflectionMethod
+     * @return bool
+     * @throws Exception\ReflectionErrorException
+     */
+    private function parseAttributeMethodParams(MethodEntity $methodEntity, ReflectionMethod $reflectionMethod): bool
+    {
+        $hasAttribute = false;
+        $params = $reflectionMethod->getParameters();
+
+        foreach ($params as $param) {
+            $paramEntity = new ParamEntity($param);
+            $attributes = $param->getAttributes();
+
             if (empty($attributes)) continue;
 
             $hasAttribute = true;
 
             foreach ($attributes as $attribute) {
-                $methodEntity->registerAttribute($attribute);
+                $paramEntity->registerAttribute($attribute);
             }
 
-            $classEntity->registerMethod($method->getName(), $methodEntity);
+            $methodEntity->registerParam($param->getName(), $paramEntity);
         }
 
         return $hasAttribute;

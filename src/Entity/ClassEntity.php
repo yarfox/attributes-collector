@@ -19,7 +19,7 @@ use Reflector;
 use Serializable;
 
 /**
- * Class ClassAttributeEntity
+ * Class ClassEntity
  * @package Yarfox\Attribute\Entity
  */
 class ClassEntity implements EntityInterface
@@ -35,10 +35,10 @@ class ClassEntity implements EntityInterface
     private ?ReflectionClass $reflection;
 
     /**
-     * @var ConstantEntity[]
-     * @example ['constantName' => ConstantAttributeEntity]
+     * @var ClassConstantEntity[]
+     * @example ['constantName' => ClassConstantAttributeEntity]
      */
-    private array $constantEntities = [];
+    private array $classConstantEntities = [];
 
     /**
      * @var PropertyEntity[]
@@ -83,11 +83,11 @@ class ClassEntity implements EntityInterface
     }
 
     /**
-     * @return ConstantEntity[]
+     * @return ClassConstantEntity[]
      */
-    public function getConstantEntities(): array
+    public function getClassConstantEntities(): array
     {
-        return $this->constantEntities;
+        return $this->classConstantEntities;
     }
 
     /**
@@ -119,11 +119,11 @@ class ClassEntity implements EntityInterface
 
     /**
      * @param string $constantName
-     * @param ConstantEntity $constantAttributeEntity
+     * @param ClassConstantEntity $constantAttributeEntity
      */
-    public function registerConstant(string $constantName, ConstantEntity $constantAttributeEntity)
+    public function registerClassConstant(string $constantName, ClassConstantEntity $constantAttributeEntity)
     {
-        $this->constantEntities[$constantName] = $constantAttributeEntity;
+        $this->classConstantEntities[$constantName] = $constantAttributeEntity;
     }
 
     /**

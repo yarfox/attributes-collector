@@ -10,6 +10,7 @@ class AttributeCollectorTest extends TestCase
 {
     public function test()
     {
+        echo PHP_EOL, PHP_EOL, PHP_EOL;
         AttributeKeeper::bootloader();
 
         /** @var ConfigCollector $collector */
@@ -27,6 +28,6 @@ class AttributeCollectorTest extends TestCase
 
         $attributes = ClassAttributeHandler::getAttributes();
         $this->assertCount(1, $attributes);
-        $this->assertEquals('test', $attributes[0]->getTest());
+        $this->assertEquals('ClassAttribute', $attributes[0]->name);
     }
 }

@@ -9,6 +9,8 @@
 
 namespace Yarfox\Attribute\Handler;
 
+use ReflectionFunction;
+use ReflectionMethod;
 use Yarfox\Attribute\Contract\HandlerInterface;
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
@@ -37,6 +39,16 @@ abstract class AbstractHandler implements HandlerInterface
     protected ReflectionClass $reflectionClass;
 
     /**
+     * @var ?ReflectionMethod
+     */
+    protected ?ReflectionMethod $reflectionMethod = null;
+
+    /**
+     * @var ?ReflectionFunction
+     */
+    protected ?ReflectionFunction $reflectionFunction = null;
+
+    /**
      * @var object
      */
     protected object $attribute;
@@ -44,7 +56,7 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @inheritDoc
      */
-    public function setTarget(#[ExpectedValues(valuesFromClass: Attribute::class)] $target): void
+    public function setTarget($target): void
     {
         $this->target = $target;
     }
@@ -63,6 +75,22 @@ abstract class AbstractHandler implements HandlerInterface
     public function setClassReflection(ReflectionClass $reflection): void
     {
         $this->reflectionClass = $reflection;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setMethodReflection(ReflectionMethod $reflection): void
+    {
+        $this->reflectionMethod = $reflection;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setFunctionReflection(ReflectionFunction $reflection): void
+    {
+        $this->reflectionFunction = $reflection;
     }
 
     /**

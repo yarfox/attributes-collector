@@ -15,17 +15,9 @@ use JetBrains\PhpStorm\ExpectedValues;
 #[Attribute(Attribute::TARGET_CLASS)]
 class ClassAttribute
 {
-    public const TEST = 'test';
+    public const NAME = 'ClassAttribute';
 
-    private string $test;
-
-    public function __construct(#[ExpectedValues(valuesFromClass: ClassAttribute::class)] string $test)
-    {
-        $this->test = $test;
-    }
-
-    public function getTest(): string
-    {
-        return $this->test;
-    }
+    public function __construct(
+        #[ExpectedValues(valuesFromClass: ClassAttribute::class)] public string $name
+    ) {}
 }

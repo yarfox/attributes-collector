@@ -9,6 +9,8 @@
 
 namespace Yarfox\Attribute;
 
+use ReflectionFunction;
+use ReflectionMethod;
 use Yarfox\Attribute\Attribute\AttributeHandler;
 use Yarfox\Attribute\Contract\EntityInterface;
 use Yarfox\Attribute\Contract\HandlerInterface;
@@ -16,8 +18,9 @@ use Yarfox\Attribute\Contract\HandlerSchedulerInterface;
 use Yarfox\Attribute\Contract\LoggerInterface;
 use Yarfox\Attribute\Contract\RegistryInterface;
 use Yarfox\Attribute\Entity\ClassEntity;
-use Yarfox\Attribute\Entity\ConstantEntity;
+use Yarfox\Attribute\Entity\ClassConstantEntity;
 use Yarfox\Attribute\Entity\MethodEntity;
+use Yarfox\Attribute\Entity\ParamEntity;
 use Yarfox\Attribute\Entity\PropertyEntity;
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
@@ -59,10 +62,10 @@ class HandlerScheduler implements HandlerSchedulerInterface
                  * @var $classEntity ClassEntity
                  */
                 $attributes = $classEntity->getAttributes();
-                $this->handleAttributes(Attribute::TARGET_CLASS, $classEntity->getReflection(), $classEntity, $attributes);
+                $this->handleAttributes(Attribute::TARGET_CLASS, $classEntity, $attributes, $classEntity->getReflection());
 
                 // Constants
-                $this->handleConstantEntities($classEntity->getReflection(), $classEntity->getConstantEntities());
+                $this->handleConstantEntities($classEntity->getReflection(), $classEntity->getClassConstantEntities());
 
                 // Properties
                 $this->handlePropertyEntities($classEntity->getReflection(), $classEntity->getPropertyEntities());
@@ -84,10 +87,10 @@ class HandlerScheduler implements HandlerSchedulerInterface
     {
         foreach ($constantEntities as $constantEntity) {
             /**
-             * @var $constantEntity ConstantEntity
+             * @var $constantEntity ClassConstantEntity
              */
             $attributes = $constantEntity->getAttributes();
-            $this->handleAttributes(Attribute::TARGET_CLASS_CONSTANT, $reflectionClass, $constantEntity, $attributes);
+            $this->handleAttributes(Attribute::TARGET_CLASS_CONSTANT, $constantEntity, $attributes, $reflectionClass);
         }
     }
 
@@ -102,7 +105,7 @@ class HandlerScheduler implements HandlerSchedulerInterface
              * @var $propertyEntity PropertyEntity
              */
             $attributes = $propertyEntity->getAttributes();
-            $this->handleAttributes(Attribute::TARGET_PROPERTY, $reflectionClass, $propertyEntity, $attributes);
+            $this->handleAttributes(Attribute::TARGET_PROPERTY, $propertyEntity, $attributes, $reflectionClass);
         }
     }
 
@@ -113,22 +116,43 @@ class HandlerScheduler implements HandlerSchedulerInterface
     private function handleMethodEntities(ReflectionClass $reflectionClass, array $methodEntities)
     {
         foreach ($methodEntities as $methodEntity) {
-            /**
-             * @var $methodEntity MethodEntity
-             */
+            /** @var MethodEntity $methodEntity */
             $attributes = $methodEntity->getAttributes();
-            $this->handleAttributes(Attribute::TARGET_METHOD, $reflectionClass, $methodEntity, $attributes);
+            $this->handleAttributes(Attribute::TARGET_METHOD, $methodEntity, $attributes, $reflectionClass);
+
+            $this->handleMethodParamEntities($methodEntity->getReflection(), $methodEntity->getParamEntities());
+        }
+    }
+
+    /**
+     * @param ReflectionMethod $reflectionMethod
+     * @param array $paramEntities
+     */
+    private function handleMethodParamEntities(ReflectionMethod $reflectionMethod, array $paramEntities)
+    {
+        foreach ($paramEntities as $paramEntity) {
+            /** @var ParamEntity $paramEntity */
+            $attributes = $paramEntity->getAttributes();
+            $this->handleAttributes(Attribute::TARGET_PARAMETER, $paramEntity, $attributes, $reflectionMethod->getDeclaringClass(), $reflectionMethod);
         }
     }
 
     /**
      * @param int $target
-     * @param ReflectionClass $reflectionClass
      * @param EntityInterface $entity
      * @param array $attributes
+     * @param ReflectionClass $reflectionClass
+     * @param ReflectionMethod|null $reflectionMethod
+     * @param ReflectionFunction|null $reflectionFunction
      */
-    private function handleAttributes(#[ExpectedValues(valuesFromClass: Attribute::class)] int $target, ReflectionClass $reflectionClass, EntityInterface $entity, array $attributes)
-    {
+    private function handleAttributes(
+        #[ExpectedValues(valuesFromClass: Attribute::class)] int $target,
+        EntityInterface $entity,
+        array $attributes,
+        ReflectionClass $reflectionClass,
+        ReflectionMethod $reflectionMethod = null,
+        ReflectionFunction $reflectionFunction = null,
+    ) {
         foreach ($attributes as $attribute) {
             /**
              * @var $attribute \ReflectionAttribute
@@ -157,6 +181,8 @@ class HandlerScheduler implements HandlerSchedulerInterface
                 $handler->setTarget($target);
                 $handler->setTargetName($entity->getReflection()->getName());
                 $handler->setClassReflection($reflectionClass);
+                $reflectionMethod && $handler->setMethodReflection($reflectionMethod);
+                $reflectionFunction && $handler->setFunctionReflection($reflectionFunction);
 
                 $attributeObject = $attribute->newInstance();
                 $handler->setAttribute($attributeObject);

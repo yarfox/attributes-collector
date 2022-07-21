@@ -28,8 +28,9 @@ class ClassAttributeHandler extends AbstractHandler
 
     public function handle(): void
     {
+        /** @var ClassAttribute $attribute */
         $attribute = $this->attribute;
-        var_dump($attribute->getTest());
+        var_dump($attribute->name);
         self::$attributes[] = $attribute;
     }
 }

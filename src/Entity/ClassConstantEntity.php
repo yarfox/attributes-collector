@@ -20,7 +20,7 @@ use Reflector;
  * Class ConstantAttributeEntity
  * @package Yarfox\Attribute\Entity
  */
-class ConstantEntity implements EntityInterface
+class ClassConstantEntity implements EntityInterface
 {
     /**
      * @return ReflectionClassConstant

@@ -9,18 +9,18 @@
 
 namespace Yarfox\Attribute\Entity;
 
+use ReflectionParameter;
 use Yarfox\Attribute\Contract\EntityInterface;
 use Yarfox\Attribute\Exception\ReflectionErrorException;
 use Attribute;
 use ReflectionAttribute;
-use ReflectionMethod;
 use Reflector;
 
 /**
- * Class MethodAttributeEntity
+ * Class ParamEntity
  * @package Yarfox\Attribute\Entity
  */
-class MethodEntity implements EntityInterface
+class ParamEntity implements EntityInterface
 {
     /**
      * @var ReflectionAttribute[]
@@ -28,15 +28,9 @@ class MethodEntity implements EntityInterface
     private array $attributes = [];
 
     /**
-     * @var ReflectionMethod
+     * @var ReflectionParameter
      */
-    private ReflectionMethod $reflection;
-
-    /**
-     * @var ParamEntity[]
-     * @example ['paramName' => ParamAttributeEntity]
-     */
-    private array $paramEntities = [];
+    private ReflectionParameter $reflection;
 
     /**
      * MethodAttributeEntity constructor.
@@ -45,17 +39,17 @@ class MethodEntity implements EntityInterface
      */
     public function __construct(Reflector $reflector)
     {
-        if (!$reflector instanceof ReflectionMethod) {
-            throw new ReflectionErrorException($reflector, ReflectionMethod::class);
+        if (!$reflector instanceof ReflectionParameter) {
+            throw new ReflectionErrorException($reflector, ReflectionParameter::class);
         }
 
         $this->reflection = $reflector;
     }
 
     /**
-     * @return ReflectionMethod
+     * @return ReflectionParameter
      */
-    public function getReflection(): ReflectionMethod
+    public function getReflection(): ReflectionParameter
     {
         return $this->reflection;
     }
@@ -69,30 +63,13 @@ class MethodEntity implements EntityInterface
     }
 
     /**
-     * @return ParamEntity[]
-     */
-    public function getParamEntities(): array
-    {
-        return $this->paramEntities;
-    }
-
-    /**
      * @param \ReflectionAttribute $attribute
      */
     public function registerAttribute(ReflectionAttribute $attribute)
     {
-        if (Attribute::TARGET_METHOD & $attribute->getTarget()) {
+        if (Attribute::TARGET_PARAMETER & $attribute->getTarget()) {
             $name = $attribute->getName();
             $this->attributes[$name] = $attribute;
         }
-    }
-
-    /**
-     * @param string $paramName
-     * @param ParamEntity $paramAttributeEntity
-     */
-    public function registerParam(string $paramName, ParamEntity $paramAttributeEntity)
-    {
-        $this->paramEntities[$paramName] = $paramAttributeEntity;
     }
 }

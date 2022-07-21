@@ -12,6 +12,8 @@ namespace Yarfox\Attribute\Contract;
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
 use ReflectionClass;
+use ReflectionFunction;
+use ReflectionMethod;
 
 /**
  * Interface AttributeHandlerInterface
@@ -20,10 +22,10 @@ use ReflectionClass;
 interface HandlerInterface
 {
     /**
-     * @param int $target
+     * @param int $target value from Attribute::class
      * @return void
      */
-    public function setTarget(#[ExpectedValues(valuesFromClass: Attribute::class)] int $target): void;
+    public function setTarget(int $target): void;
 
     /**
      * @param string $name class name or method name or property name or constant name
@@ -36,6 +38,18 @@ interface HandlerInterface
      * @return void
      */
     public function setClassReflection(ReflectionClass $reflection): void;
+
+    /**
+     * @param ReflectionMethod $reflection
+     * @return void
+     */
+    public function setMethodReflection(ReflectionMethod $reflection): void;
+
+    /**
+     * @param ReflectionFunction $reflection
+     * @return void
+     */
+    public function setFunctionReflection(ReflectionFunction $reflection): void;
 
     /**
      * @param object $attributeObject
