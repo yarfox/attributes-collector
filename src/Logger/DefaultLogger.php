@@ -23,9 +23,23 @@ class DefaultLogger implements LoggerInterface
      */
     private ConsoleColor $console;
 
+    /**
+     * @var int
+     */
+    private int $level = self::LEVEL_INFO;
+
     public function __construct()
     {
         $this->console = new ConsoleColor();
+    }
+
+    /**
+     * @param int $level
+     * @return void
+     */
+    public function setLevel(int $level = self::LEVEL_INFO): void
+    {
+        $this->level = $level;
     }
 
     /**
@@ -33,8 +47,10 @@ class DefaultLogger implements LoggerInterface
      */
     public function error(string $content): void
     {
-        $txt = $this->console->apply(['red', 'bold'], "[ERROR] {$content}\n");
-        fputs(STDERR, $txt);
+        if ($this->level <= self::LEVEL_ERROR) {
+            $txt = $this->console->apply(['red', 'bold'], "[ERROR] {$content}\n");
+            fputs(STDERR, $txt);
+        }
     }
 
     /**
@@ -42,8 +58,10 @@ class DefaultLogger implements LoggerInterface
      */
     public function info(string $content): void
     {
-        $txt = $this->console->apply(['bold', 'default'], "[INFO] {$content}\n");
-        fputs(STDOUT, $txt);
+        if ($this->level <= self::LEVEL_INFO) {
+            $txt = $this->console->apply(['bold', 'default'], "[INFO] {$content}\n");
+            fputs(STDOUT, $txt);
+        }
     }
 
     /**
@@ -51,8 +69,10 @@ class DefaultLogger implements LoggerInterface
      */
     public function success(string $content): void
     {
-        $txt = $this->console->apply(['bold', 'green'], "[SUCCESS] {$content}\n");
-        fputs(STDOUT, $txt);
+        if ($this->level <= self::LEVEL_SUCCESS) {
+            $txt = $this->console->apply(['bold', 'green'], "[SUCCESS] {$content}\n");
+            fputs(STDOUT, $txt);
+        }
     }
 
     /**
@@ -60,7 +80,9 @@ class DefaultLogger implements LoggerInterface
      */
     public function warning(string $content): void
     {
-        $txt = $this->console->apply(['bold', 'yellow'], "[WARNING] {$content}\n");
-        fputs(STDOUT, $txt);
+        if ($this->level <= self::LEVEL_WARNING) {
+            $txt = $this->console->apply(['bold', 'yellow'], "[WARNING] {$content}\n");
+            fputs(STDOUT, $txt);
+        }
     }
 }

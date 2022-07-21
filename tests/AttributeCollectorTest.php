@@ -2,6 +2,7 @@
 
 use Yarfox\Attribute\AttributeKeeper;
 use Yarfox\Attribute\ConfigCollector;
+use Yarfox\Attribute\Contract\LoggerInterface;
 use Yarfox\Attribute\Test\Handler\ClassAttributeHandler;
 use PHPUnit\Framework\TestCase;
 use Yarfox\Container\Facade\Container;
@@ -12,6 +13,10 @@ class AttributeCollectorTest extends TestCase
     {
         echo PHP_EOL, PHP_EOL, PHP_EOL;
         AttributeKeeper::bootloader();
+
+        /** @var LoggerInterface $logger */
+        //$logger = Container::getInstance(LoggerInterface::class);
+        //$logger->setLevel(LoggerInterface::LEVEL_SUCCESS);
 
         /** @var ConfigCollector $collector */
         $collector = Container::getInstance(ConfigCollector::class);
