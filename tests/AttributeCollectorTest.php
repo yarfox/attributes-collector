@@ -21,7 +21,10 @@ class AttributeCollectorTest extends TestCase
             $collector->configs['Yarfox\\Attribute\\Test\\'] = [
                 'scanDirs' => [
                     'Yarfox\\Attribute\\Test' => realpath(__DIR__ . '/app'),
-                ]
+                ],
+                'functions' => [
+                    '\Yarfox\Attribute\Test\foo'
+                ],
             ];
         }, null, ConfigCollector::class)();
         AttributeKeeper::collect();

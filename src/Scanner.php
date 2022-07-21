@@ -9,6 +9,7 @@
 
 namespace Yarfox\Attribute;
 
+use ReflectionFunction;
 use ReflectionMethod;
 use Yarfox\Attribute\Attribute\AttributeHandler;
 use Yarfox\Attribute\Contract\LoggerInterface;
@@ -16,6 +17,7 @@ use Yarfox\Attribute\Contract\RegistryInterface;
 use Yarfox\Attribute\Contract\ScannerInterface;
 use Yarfox\Attribute\Entity\ClassEntity;
 use Yarfox\Attribute\Entity\ClassConstantEntity;
+use Yarfox\Attribute\Entity\FunctionEntity;
 use Yarfox\Attribute\Entity\MethodEntity;
 use Yarfox\Attribute\Entity\ParamEntity;
 use Yarfox\Attribute\Entity\PropertyEntity;
@@ -42,6 +44,11 @@ class Scanner implements ScannerInterface
 
     /**
      * @var array
+     */
+    private array $functions = [];
+
+    /**
+     * @var array
      * @example
      * [
      *     $realpath => $namespace
@@ -65,9 +72,8 @@ class Scanner implements ScannerInterface
         // init scanDirs
         foreach ($this->configCollector->getConfigs() as $parentNamespace => $configs) {
 
-            if (!isset($configs['scanDirs']) || !is_array($configs['scanDirs'])) continue;
-
-            foreach ($configs['scanDirs'] as $namespace => $scanDir) {
+            $scanDirs = $configs['scanDirs'] ?? [];
+            foreach ($scanDirs as $namespace => $scanDir) {
                 $realpath = realpath($scanDir);
                 if (false === $realpath || !is_dir($realpath)) {
                     $this->logger && $this->logger->warning("Path({$scanDir}) not exists or it is not dir.");
@@ -77,6 +83,7 @@ class Scanner implements ScannerInterface
                 $this->scanDirs[$namespace] = $realpath;
             }
 
+            array_push($this->functions, ...($configs['functions'] ?? []));
         }
 
         // init realpathAssocNamespace
@@ -94,9 +101,13 @@ class Scanner implements ScannerInterface
      */
     public function scan()
     {
+        // parse classes
         foreach ($this->scanDirs as $namespace => $dir) {
             $this->parseAttributeClassesFromDir($namespace, $dir);
         }
+
+        // parse functions
+        $this->parseFunctions();
 
         $this->logger && $this->logger->success('Attribute scan success.');
     }
@@ -132,6 +143,27 @@ class Scanner implements ScannerInterface
 
             if ($hasClassAttribute || $hasConstantAttribute || $hasPropertyAttribute || $hasMethodAttribute) {
                 $this->registry->registerAttribute($reflectionClass->getNamespaceName(), $reflectionClass->getName(), $classEntity);
+            }
+        }
+    }
+
+    /**
+     * @return void
+     * @throws Exception\ReflectionErrorException
+     */
+    private function parseFunctions(): void
+    {
+        foreach ($this->functions as $function) {
+            if (!function_exists($function)) {
+                continue;
+            }
+
+            $functionReflection = new ReflectionFunction($function);
+            $functionEntity = new FunctionEntity($functionReflection);
+
+            $hasAttribute = $this->parseAttributeFunctions($functionEntity, $functionReflection);
+            if ($hasAttribute) {
+                $this->registry->registerAttribute($functionReflection->getNamespaceName(), $functionReflection->getName(), $functionEntity);
             }
         }
     }
@@ -241,7 +273,7 @@ class Scanner implements ScannerInterface
             }
 
             // Register param attributes of method.
-            $hasParamAttribute = $this->parseAttributeMethodParams($methodEntity, $method);
+            $hasParamAttribute = $this->parseAttributeParams($methodEntity, $method);
             if ($attributes || $hasParamAttribute) {
                 $hasAttribute = true;
                 $classEntity->registerMethod($method->getName(), $methodEntity);
@@ -252,15 +284,40 @@ class Scanner implements ScannerInterface
     }
 
     /**
-     * @param MethodEntity $methodEntity
-     * @param ReflectionMethod $reflectionMethod
+     * @param FunctionEntity $entity
+     * @param ReflectionFunction $reflectionFunction
      * @return bool
      * @throws Exception\ReflectionErrorException
      */
-    private function parseAttributeMethodParams(MethodEntity $methodEntity, ReflectionMethod $reflectionMethod): bool
+    private function parseAttributeFunctions(FunctionEntity $entity, ReflectionFunction $reflectionFunction): bool
     {
         $hasAttribute = false;
-        $params = $reflectionMethod->getParameters();
+        $attributes = $reflectionFunction->getAttributes();
+
+        // Register function attributes
+        foreach ($attributes as $attribute) {
+            $entity->registerAttribute($attribute);
+        }
+
+        // Register param attributes of method.
+        $hasParamAttribute = $this->parseAttributeParams($entity, $reflectionFunction);
+        if ($attributes || $hasParamAttribute) {
+            $hasAttribute = true;
+        }
+
+        return $hasAttribute;
+    }
+
+    /**
+     * @param MethodEntity|FunctionEntity $entity
+     * @param ReflectionMethod|ReflectionFunction $func
+     * @return bool
+     * @throws Exception\ReflectionErrorException
+     */
+    private function parseAttributeParams(MethodEntity|FunctionEntity $entity, ReflectionMethod|ReflectionFunction $func): bool
+    {
+        $hasAttribute = false;
+        $params = $func->getParameters();
 
         foreach ($params as $param) {
             $paramEntity = new ParamEntity($param);
@@ -274,7 +331,7 @@ class Scanner implements ScannerInterface
                 $paramEntity->registerAttribute($attribute);
             }
 
-            $methodEntity->registerParam($param->getName(), $paramEntity);
+            $entity->registerParam($param->getName(), $paramEntity);
         }
 
         return $hasAttribute;

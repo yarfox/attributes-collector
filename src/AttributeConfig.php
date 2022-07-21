@@ -21,13 +21,14 @@ class AttributeConfig implements ConfigInterface
     /**
      * @inheritDoc
      */
-    #[ArrayShape(['scanDirs' => 'array'])]
+    #[ArrayShape(['scanDirs' => 'array', 'functions' => 'array'])]
     public static function getAttributeConfigs(): array
     {
         return [
             'scanDirs' => [
                 __NAMESPACE__ => __DIR__,
             ],
+            'functions' => [],
         ];
     }
 }

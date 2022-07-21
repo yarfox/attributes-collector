@@ -12,6 +12,7 @@ namespace Yarfox\Attribute\Test;
 use Yarfox\Attribute\Test\Attribute\ClassAttribute;
 use Yarfox\Attribute\Test\Attribute\ClassConstantAttribute;
 use Yarfox\Attribute\Test\Attribute\FunctionAttribute;
+use Yarfox\Attribute\Test\Attribute\FunctionParamAttribute;
 use Yarfox\Attribute\Test\Attribute\MethodAttribute;
 use Yarfox\Attribute\Test\Attribute\MethodParamAttribute;
 use Yarfox\Attribute\Test\Attribute\PropertyAttribute;
@@ -39,7 +40,7 @@ class ClassAttributeInstance
 }
 
 #[FunctionAttribute('This is FunctionAttribute', 2)]
-function foo(): void
+function foo(#[FunctionParamAttribute('This is FunctionParamAttribute')]string $name): void
 {
 
 }

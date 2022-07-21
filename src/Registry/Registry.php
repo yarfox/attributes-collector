@@ -11,6 +11,7 @@ namespace Yarfox\Attribute\Registry;
 
 use Yarfox\Attribute\Contract\RegistryInterface;
 use Yarfox\Attribute\Entity\ClassEntity;
+use Yarfox\Attribute\Entity\FunctionEntity;
 
 class Registry implements RegistryInterface
 {
@@ -20,8 +21,9 @@ class Registry implements RegistryInterface
      * @example
      * [
      *     $namespace => [
-     *         $className  => ClassAttributeEntity,
-     *         $className2 => ClassAttributeEntity,
+     *         $className  => ClassEntity,
+     *         $className2 => ClassEntity,
+     *         $funcName   => FunctionEntity,
      *     ]
      * ]
      */
@@ -58,12 +60,12 @@ class Registry implements RegistryInterface
 
     /**
      * @param string $namespace
-     * @param string $className
-     * @param \Yarfox\Attribute\Entity\ClassEntity $classAttributeEntity
+     * @param string $name class or function name
+     * @param ClassEntity|FunctionEntity $entity
      */
-    public function registerAttribute(string $namespace, string $className, ClassEntity $classAttributeEntity): void
+    public function registerAttribute(string $namespace, string $name, ClassEntity|FunctionEntity $entity): void
     {
-        $this->attributes[$namespace][$className] = $classAttributeEntity;
+        $this->attributes[$namespace][$name] = $entity;
     }
 
     /**

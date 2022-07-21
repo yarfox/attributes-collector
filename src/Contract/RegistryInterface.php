@@ -10,6 +10,7 @@
 namespace Yarfox\Attribute\Contract;
 
 use Yarfox\Attribute\Entity\ClassEntity;
+use Yarfox\Attribute\Entity\FunctionEntity;
 
 /**
  * Interface AttributeRegistryInterface
@@ -35,11 +36,11 @@ interface RegistryInterface
 
     /**
      * @param string $namespace
-     * @param string $className
-     * @param ClassEntity $classAttributeEntity
+     * @param string $name
+     * @param ClassEntity|FunctionEntity $entity
      * @return void
      */
-    public function registerAttribute(string $namespace, string $className, ClassEntity $classAttributeEntity): void;
+    public function registerAttribute(string $namespace, string $name, ClassEntity|FunctionEntity $entity): void;
 
     /**
      * @param string $attributeName
