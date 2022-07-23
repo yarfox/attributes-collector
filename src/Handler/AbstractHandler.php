@@ -34,9 +34,9 @@ abstract class AbstractHandler implements HandlerInterface
     protected string $targetName;
 
     /**
-     * @var ReflectionClass
+     * @var ?ReflectionClass
      */
-    protected ReflectionClass $reflectionClass;
+    protected ?ReflectionClass $reflectionClass;
 
     /**
      * @var ?ReflectionMethod
