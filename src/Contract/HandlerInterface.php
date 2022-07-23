@@ -12,8 +12,11 @@ namespace Yarfox\Attribute\Contract;
 use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
 use ReflectionClass;
+use ReflectionClassConstant;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionParameter;
+use ReflectionProperty;
 
 /**
  * Interface AttributeHandlerInterface
@@ -40,16 +43,34 @@ interface HandlerInterface
     public function setClassReflection(ReflectionClass $reflection): void;
 
     /**
+     * @param ReflectionClassConstant $reflection
+     * @return void
+     */
+    public function setClassConstantReflection(ReflectionClassConstant $reflection): void;
+
+    /**
      * @param ReflectionMethod $reflection
      * @return void
      */
     public function setMethodReflection(ReflectionMethod $reflection): void;
 
     /**
+     * @param ReflectionProperty $reflection
+     * @return void
+     */
+    public function setPropertyReflection(ReflectionProperty $reflection): void;
+
+    /**
      * @param ReflectionFunction $reflection
      * @return void
      */
     public function setFunctionReflection(ReflectionFunction $reflection): void;
+
+    /**
+     * @param ReflectionParameter $reflection
+     * @return void
+     */
+    public function setParamReflection(ReflectionParameter $reflection): void;
 
     /**
      * @param object $attributeObject

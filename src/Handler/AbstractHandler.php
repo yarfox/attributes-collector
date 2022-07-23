@@ -9,12 +9,12 @@
 
 namespace Yarfox\Attribute\Handler;
 
+use ReflectionClassConstant;
 use ReflectionFunction;
 use ReflectionMethod;
+use ReflectionParameter;
+use ReflectionProperty;
 use Yarfox\Attribute\Contract\HandlerInterface;
-use Attribute;
-use JetBrains\PhpStorm\ExpectedValues;
-use ReflectionAttribute;
 use ReflectionClass;
 
 /**
@@ -36,7 +36,12 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @var ?ReflectionClass
      */
-    protected ?ReflectionClass $reflectionClass;
+    protected ?ReflectionClass $reflectionClass = null;
+
+    /**
+     * @var ?ReflectionClassConstant
+     */
+    protected ?ReflectionClassConstant $reflectionClassConstant = null;
 
     /**
      * @var ?ReflectionMethod
@@ -44,9 +49,20 @@ abstract class AbstractHandler implements HandlerInterface
     protected ?ReflectionMethod $reflectionMethod = null;
 
     /**
+     * @var ?ReflectionProperty
+     */
+    protected ?ReflectionProperty $reflectionProperty = null;
+
+    /**
      * @var ?ReflectionFunction
      */
     protected ?ReflectionFunction $reflectionFunction = null;
+
+    /**
+     * @var ?ReflectionParameter
+     */
+    protected ?ReflectionParameter $reflectionParameter = null;
+
 
     /**
      * @var object
@@ -75,6 +91,30 @@ abstract class AbstractHandler implements HandlerInterface
     public function setClassReflection(ReflectionClass $reflection): void
     {
         $this->reflectionClass = $reflection;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setClassConstantReflection(ReflectionClassConstant $reflection): void
+    {
+        $this->reflectionClassConstant = $reflection;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setPropertyReflection(ReflectionProperty $reflection): void
+    {
+        $this->reflectionProperty = $reflection;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setParamReflection(ReflectionParameter $reflection): void
+    {
+        $this->reflectionParameter = $reflection;
     }
 
     /**
